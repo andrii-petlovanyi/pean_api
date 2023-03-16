@@ -7,7 +7,20 @@ class CustomError extends Error {
     }
 }
 
+class ConflictError extends CustomError {
+    constructor(message: string) {
+        super(message);
+        this.status = 409;
+    }
+}
+
+class NotAuthorizedError extends CustomError {
+    constructor(message: string) {
+        super(message);
+        this.status = 401;
+    }
+}
 
 
 
-export { CustomError, }
+export { CustomError, ConflictError, NotAuthorizedError }

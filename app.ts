@@ -5,6 +5,9 @@ import dotenv from 'dotenv'
 import { errorsHandler } from './helpers/errorsHandler';
 import { db } from './db/config';
 
+import { usersRouter } from './routes/users.route';
+import { postsRouter } from './routes/posts.route';
+import { projectsRouter } from './routes/projects.route';
 
 dotenv.config()
 
@@ -18,6 +21,9 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use('/api/users', usersRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/users', projectsRouter);
 
 app.use((_, res: Response) => {
     res.status(404).json({ message: 'Sorry, but this resource not found' });
