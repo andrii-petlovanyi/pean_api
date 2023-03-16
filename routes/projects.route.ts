@@ -1,19 +1,31 @@
-import express from 'express'
-import { addProjectCtrl, deleteProjectCtrl, projectByIdCtrl, projectsListCtrl, updateProjectCtrl } from '../controllers/projects.controller';
+import express from 'express';
+import {
+  addProjectCtrl,
+  deleteProjectCtrl,
+  projectByIdCtrl,
+  projectsListCtrl,
+  updateProjectCtrl,
+} from '../controllers/projects.controller';
 import { checkJWT } from '../middlewares/checkJWT';
-import { wrapCtrl } from '../middlewares/wrapCtrl'
+import { idValidation } from '../middlewares/idValidation';
+import { wrapCtrl } from '../middlewares/wrapCtrl';
 
-const router = express.Router()
-
+const router = express.Router();
 
 router.get('/', wrapCtrl(projectsListCtrl));
-router.get('/:projectId', wrapCtrl(projectByIdCtrl));
+router.get('/:projectId', idValidation('projectId'), wrapCtrl(projectByIdCtrl));
 
-router.use(checkJWT)
+router.use(checkJWT);
 router.post('/', wrapCtrl(addProjectCtrl));
-router.patch('/:projectId', wrapCtrl(updateProjectCtrl));
-router.delete('/:projectId', wrapCtrl(deleteProjectCtrl));
+router.patch(
+  '/:projectId',
+  idValidation('projectId'),
+  wrapCtrl(updateProjectCtrl)
+);
+router.delete(
+  '/:projectId',
+  idValidation('projectId'),
+  wrapCtrl(deleteProjectCtrl)
+);
 
-
-
-export { router as projectsRouter }
+export { router as projectsRouter };

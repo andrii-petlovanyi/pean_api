@@ -1,32 +1,67 @@
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
+import {
+  addPost,
+  deletePost,
+  postById,
+  postsList,
+  updatePost,
+} from '../services/posts.service';
 
 const postsListCtrl = async (req: Request, res: Response) => {
-    res.status(200).json({
-    })
-}
+  const posts = await postsList();
+
+  res.status(200).json({
+    posts,
+  });
+};
 
 const postByIdCtrl = async (req: Request, res: Response) => {
-    res.status(200).json({
-    })
-}
+  const { postId } = req.params;
+
+  const post = await postById(postId);
+
+  res.status(200).json({
+    post,
+  });
+};
 
 const addPostCtrl = async (req: Request, res: Response) => {
-    res.status(200).json({
-        message: 'Post added successfully in your portfolio!'
-    })
-}
+  const body = req.body;
+
+  const post = await addPost(body);
+
+  res.status(201).json({
+    message: 'Post added successfully in your portfolio!',
+    post,
+  });
+};
 
 const deletePostCtrl = async (req: Request, res: Response) => {
-    res.status(200).json({
-        message: 'Post deleted successfully!'
-    })
-}
+  const { postId } = req.params;
+
+  await deletePost(postId);
+
+  res.status(200).json({
+    message: 'Post deleted successfully!',
+  });
+};
 
 const updatePostCtrl = async (req: Request, res: Response) => {
-    res.status(200).json({
-        message: 'Post updated successfully!'
-    })
-}
+  const body = req.body;
+  const { postId } = req.params;
 
+  const post = await updatePost(postId, body);
 
-export { postByIdCtrl, postsListCtrl, deletePostCtrl, addPostCtrl, updatePostCtrl }
+  res.status(200).json({
+    message: 'Post updated successfully!',
+    post,
+  });
+};
+
+export {
+  postByIdCtrl,
+  postsListCtrl,
+  deletePostCtrl,
+  addPostCtrl,
+  updatePostCtrl,
+};

@@ -1,26 +1,24 @@
 class CustomError extends Error {
-    public status: number;
+  public status: number;
 
-    constructor(message: string) {
-        super(message);
-        this.status = 400;
-    }
+  constructor(message: string) {
+    super(message);
+    this.status = 400;
+  }
 }
 
 class ConflictError extends CustomError {
-    constructor(message: string) {
-        super(message);
-        this.status = 409;
-    }
+  constructor(message: string) {
+    super(message);
+    this.status = 409;
+  }
 }
 
 class NotAuthorizedError extends CustomError {
-    constructor(message: string) {
-        super(message);
-        this.status = 401;
-    }
+  constructor(message: string) {
+    super(message);
+    this.status = 401;
+  }
 }
 
-
-
-export { CustomError, ConflictError, NotAuthorizedError }
+export { CustomError, ConflictError, NotAuthorizedError };

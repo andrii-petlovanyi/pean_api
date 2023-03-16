@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
-app.use('/api/users', projectsRouter);
+app.use('/api/projects', projectsRouter);
 
 app.use((_, res: Response) => {
     res.status(404).json({ message: 'Sorry, but this resource not found' });

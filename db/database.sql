@@ -1,12 +1,12 @@
 create TABLE users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    nickname VARCHAR(20) NOT NULL UNIQUE,
-    password VARCHAR(72) NOT NULL,
-    accessToken VARCHAR DEFAULT NULL
+   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+   nickname VARCHAR(20) NOT NULL UNIQUE,
+   password VARCHAR(72) NOT NULL,
+   accessToken VARCHAR DEFAULT NULL
 );
 
 create TABLE projects (
-   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
    title TEXT NOT NULL,
    description TEXT NOT NULL,
    article TEXT NOT NULL,
@@ -18,7 +18,7 @@ create TABLE projects (
 );
 
 create TABLE posts (
-   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
    title TEXT NOT NULL,
    description TEXT NOT NULL,
    article TEXT NOT NULL,
