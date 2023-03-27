@@ -14,7 +14,7 @@ interface IProject {
 const projectsList = async () => {
   const { rows } = await db.query('SELECT * FROM projects');
 
-  return rows[0];
+  return rows;
 };
 
 const projectById = async (projectId: string) => {

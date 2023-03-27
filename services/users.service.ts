@@ -18,7 +18,7 @@ const signIn = async (body: IUser) => {
   const hashedPassword = user.rows[0].password;
   const isPasswordValid = bcrypt.compareSync(password, hashedPassword);
 
-  if (!!user.rows.length || !isPasswordValid) {
+  if (!user.rows.length || !isPasswordValid) {
     throw new NotAuthorizedError(`Wrong nickname or password`);
   }
 
