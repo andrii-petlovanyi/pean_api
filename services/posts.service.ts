@@ -11,7 +11,7 @@ interface IPost {
 }
 
 const postsList = async () => {
-  const { rows } = await db.query('SELECT * FROM posts');
+  const { rows } = await db.query('SELECT title, description, images FROM posts');
 
   return rows;
 };

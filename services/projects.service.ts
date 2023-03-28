@@ -12,15 +12,18 @@ interface IProject {
 }
 
 const projectsList = async () => {
-  const { rows } = await db.query('SELECT * FROM projects');
+  const { rows } = await db.query(
+    'SELECT id, title, description, images FROM projects'
+  );
 
   return rows;
 };
 
 const projectById = async (projectId: string) => {
-  const { rows } = await db.query('SELECT * FROM projects WHERE id = $1', [
-    projectId,
-  ]);
+  const { rows } = await db.query(
+    'SELECT id, title, article, meta_title, meta_description, meta_keywords, images, createdAt FROM projects WHERE id = $1',
+    [projectId]
+  );
 
   if (!rows.length)
     throw new CustomError(`Project with id: ${projectId} not found`);
