@@ -6,6 +6,7 @@ import { PostsModule } from './posts/posts.module';
 import { ProjectsModule } from './projects/projects.module';
 import { MetaModule } from './meta/meta.module';
 import { ConfigModule } from '@nestjs/config';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     PostsModule,
     ProjectsModule,
     MetaModule,
+    CommentsModule,
   ],
   controllers: [],
   providers: [AppService, PrismaService],
