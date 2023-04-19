@@ -1,7 +1,6 @@
 import {
   ArrayMaxSize,
   ArrayMinSize,
-  IsDate,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -39,9 +38,11 @@ export class ProjectsDto {
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   meta_keywords?: string;
+}
 
-  // @ArrayMinSize(1, { message: 'At least 1 image link is required' })
-  // @ArrayMaxSize(10, { message: 'Maximum of 10 image links is allowed' })
-  // @IsString({ each: true })
-  // images: string[];
+export class UpdateProjectsDto extends ProjectsDto {
+  @ArrayMinSize(1, { message: 'At least 1 image link is required' })
+  @ArrayMaxSize(10, { message: 'Maximum of 10 image links is allowed' })
+  @IsString({ each: true })
+  images: string[];
 }

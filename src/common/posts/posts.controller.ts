@@ -14,7 +14,7 @@ import {
 
 import { Auth } from '@src/common/users/decorator/auth.decorator';
 import { PostsService } from '@src/common/posts/posts.service';
-import { PostsDto } from '@src/common/posts/dto/posts.dto';
+import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
@@ -51,7 +51,10 @@ export class PostsController {
   @Auth()
   @Patch('/:postId')
   @UsePipes(new ValidationPipe())
-  async updateProject(@Param('postId') postId: string, @Body() dto: PostsDto) {
+  async updateProject(
+    @Param('postId') postId: string,
+    @Body() dto: UpdatePostDto,
+  ) {
     return this.postsService.updatePost(postId, dto);
   }
 }

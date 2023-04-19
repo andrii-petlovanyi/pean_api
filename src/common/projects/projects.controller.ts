@@ -14,7 +14,10 @@ import {
 
 import { Auth } from '@src/common/users/decorator/auth.decorator';
 import { ProjectsService } from '@src/common/projects/projects.service';
-import { ProjectsDto } from '@src/common/projects/dto/projects.dto';
+import {
+  ProjectsDto,
+  UpdateProjectsDto,
+} from '@src/common/projects/dto/projects.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('projects')
@@ -53,7 +56,7 @@ export class ProjectsController {
   @UsePipes(new ValidationPipe())
   async updateProject(
     @Param('projectId') projectId: string,
-    @Body() dto: ProjectsDto,
+    @Body() dto: UpdateProjectsDto,
   ) {
     return this.projectsService.updateProject(projectId, dto);
   }
