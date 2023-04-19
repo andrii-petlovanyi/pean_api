@@ -1,12 +1,12 @@
-import { PrismaService } from './prisma.service';
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { ProjectsModule } from './projects/projects.module';
-import { MetaModule } from './meta/meta.module';
+import { PrismaService } from '@src/prisma.service';
 import { ConfigModule } from '@nestjs/config';
-import { CommentsModule } from './comments/comments.module';
+import { UsersModule } from '@src/common/users/users.module';
+import { PostsModule } from '@src/common/posts/posts.module';
+import { ProjectsModule } from '@src/common/projects/projects.module';
+import { MetaModule } from '@src/common/meta/meta.module';
+import { CommentsModule } from '@src/common/comments/comments.module';
+import { CloudinaryModule } from '@src/common/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -16,8 +16,9 @@ import { CommentsModule } from './comments/comments.module';
     ProjectsModule,
     MetaModule,
     CommentsModule,
+    CloudinaryModule,
   ],
   controllers: [],
-  providers: [AppService, PrismaService],
+  providers: [PrismaService],
 })
 export class AppModule {}

@@ -1,19 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ProjectsDto } from './dto/projects.dto';
-import { PrismaService } from 'src/prisma.service';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { ProjectsDto } from '@src/common/projects/dto/projects.dto';
+import { PrismaService } from '@src/prisma.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ProjectsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   async projectsList() {
     const projects = await this.prisma.project.findMany();
 
-    return {
-      projects,
-    };
+    return projects;
   }
 
   async projectById(projectId: string) {
@@ -26,16 +28,20 @@ export class ProjectsService {
     if (!project)
       throw new NotFoundException(`Project with id: ${projectId} not found`);
 
-    return {
-      project,
-    };
+    return project;
   }
 
-  async addProject(dto: ProjectsDto) {
+  async addProject(files: Express.Multer.File[], dto: ProjectsDto) {
+    const imagesUrl = await this.cloudinaryService.uploadImages(
+      files,
+      ProjectsService.name,
+    );
+
     const project = await this.prisma.project.create({
       data: {
         id: uuidv4(),
         ...dto,
+        images: [...imagesUrl],
       },
     });
 

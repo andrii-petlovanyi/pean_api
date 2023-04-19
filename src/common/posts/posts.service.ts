@@ -1,19 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PostsDto } from './dto/posts.dto';
-import { PrismaService } from 'src/prisma.service';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { PostsDto } from '@src/common/posts/dto/posts.dto';
+import { PrismaService } from '@src/prisma.service';
+import { CloudinaryService } from '@src/common/cloudinary/cloudinary.service';
 
 @Injectable()
 export class PostsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   async postsList() {
     const posts = await this.prisma.post.findMany();
 
-    return {
-      posts,
-    };
+    return posts;
   }
 
   async postById(postId: string) {
@@ -25,16 +27,20 @@ export class PostsService {
 
     if (!post) throw new NotFoundException(`Post with id: ${postId} not found`);
 
-    return {
-      post,
-    };
+    return post;
   }
 
-  async addPost(dto: PostsDto) {
+  async addPost(files: Express.Multer.File[], dto: PostsDto) {
+    const imagesUrl = await this.cloudinaryService.uploadImages(
+      files,
+      PostsService.name,
+    );
+
     const post = await this.prisma.post.create({
       data: {
         id: uuidv4(),
         ...dto,
+        images: [...imagesUrl],
       },
     });
 

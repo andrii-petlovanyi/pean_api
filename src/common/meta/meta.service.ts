@@ -3,10 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { MetaDto } from './dto/meta.dto';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { PrismaService } from '@src/prisma.service';
+import { MetaDto } from '@src/common/meta/dto/meta.dto';
+
 
 @Injectable()
 export class MetaService {

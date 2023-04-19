@@ -1,4 +1,3 @@
-import { Auth } from './../users/decorator/auth.decorator';
 import {
   Body,
   Controller,
@@ -7,11 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ProjectsService } from './projects.service';
-import { ProjectsDto } from './dto/projects.dto';
+
+import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { ProjectsService } from '@src/common/projects/projects.service';
+import { ProjectsDto } from '@src/common/projects/dto/projects.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('projects')
 export class ProjectsController {
@@ -30,8 +34,12 @@ export class ProjectsController {
   @Auth()
   @Post('/')
   @UsePipes(new ValidationPipe())
-  async addProject(@Body() dto: ProjectsDto) {
-    return this.projectsService.addProject(dto);
+  @UseInterceptors(FilesInterceptor('images'))
+  async addProject(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() dto: ProjectsDto,
+  ) {
+    return this.projectsService.addProject(files, dto);
   }
 
   @Auth()

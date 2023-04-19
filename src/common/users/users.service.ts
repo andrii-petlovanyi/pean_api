@@ -7,10 +7,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
 import { v4 as uuidv4 } from 'uuid';
-
-import { UsersDto } from './dto/users.dto';
-import { PrismaService } from './../prisma.service';
 import { User } from '@prisma/client';
+
+import { UsersDto } from '@src/common/users/dto/users.dto';
+import { PrismaService } from '@src/prisma.service';
 
 @Injectable()
 export class UsersService {

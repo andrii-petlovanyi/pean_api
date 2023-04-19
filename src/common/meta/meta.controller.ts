@@ -1,4 +1,3 @@
-import { Auth } from './../users/decorator/auth.decorator';
 import {
   Body,
   Controller,
@@ -11,8 +10,10 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { MetaService } from './meta.service';
-import { MetaDto } from './dto/meta.dto';
+
+import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { MetaService } from '@src/common/meta/meta.service';
+import { MetaDto } from '@src/common/meta/dto/meta.dto';
 
 @Controller('meta')
 export class MetaController {

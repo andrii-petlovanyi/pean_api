@@ -1,11 +1,12 @@
-import { JwtStrategy } from './strategy/jwt.strategy';
-import { getJwtConfig } from './../config/jwt.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PrismaService } from './../prisma.service';
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { JwtModule } from '@nestjs/jwt';
+
+import { JwtStrategy } from '@src/common/users/strategy/jwt.strategy';
+import { getJwtConfig } from '@src/config/jwt.config';
+import { PrismaService } from '@src/prisma.service';
+import { UsersService } from '@src/common/users/users.service';
+import { UsersController } from '@src/common/users/users.controller';
 
 @Module({
   controllers: [UsersController],

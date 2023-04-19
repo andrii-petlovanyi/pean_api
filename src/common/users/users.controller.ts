@@ -1,4 +1,3 @@
-import { UsersDto } from './dto/users.dto';
 import {
   Body,
   Controller,
@@ -8,10 +7,12 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CurrentUser } from './decorator/user.decorator';
-import { Auth } from './decorator/auth.decorator';
 import { User } from '@prisma/client';
+
+import { UsersDto } from '@src/common/users/dto/users.dto';
+import { UsersService } from '@src/common/users/users.service';
+import { CurrentUser } from '@src/common/users/decorator/user.decorator';
+import { Auth } from '@src/common/users/decorator/auth.decorator';
 
 @Controller('users')
 export class UsersController {
