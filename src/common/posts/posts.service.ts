@@ -13,7 +13,14 @@ export class PostsService {
   ) {}
 
   async postsList() {
-    const posts = await this.prisma.post.findMany();
+    const posts = await this.prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        images: true,
+      },
+    });
 
     return posts;
   }

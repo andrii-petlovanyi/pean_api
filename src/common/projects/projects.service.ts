@@ -13,7 +13,14 @@ export class ProjectsService {
   ) {}
 
   async projectsList() {
-    const projects = await this.prisma.project.findMany();
+    const projects = await this.prisma.project.findMany({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        images: true,
+      },
+    });
 
     return projects;
   }
