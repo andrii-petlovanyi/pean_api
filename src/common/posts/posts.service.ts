@@ -25,6 +25,14 @@ export class PostsService {
     return posts;
   }
 
+  async postsSitemapRoute() {
+    return await this.prisma.post.findMany({
+      select: {
+        id: true,
+      },
+    });
+  }
+
   async postById(postId: string) {
     const post = await this.prisma.post.findUnique({
       where: {

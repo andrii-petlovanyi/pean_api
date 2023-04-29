@@ -25,6 +25,14 @@ export class ProjectsService {
     return projects;
   }
 
+  async projectsSitemapRoute() {
+    return await this.prisma.project.findMany({
+      select: {
+        id: true,
+      },
+    });
+  }
+
   async projectById(projectId: string) {
     const project = await this.prisma.project.findUnique({
       where: {

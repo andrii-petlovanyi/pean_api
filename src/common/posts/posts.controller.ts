@@ -26,6 +26,11 @@ export class PostsController {
     return this.postsService.postsList();
   }
 
+  @Get('/sitemap')
+  async postsSitemapRoute() {
+    return this.postsService.postsSitemapRoute();
+  }
+
   @Get('/:postId')
   async projectById(@Param('postId') postId: string) {
     return this.postsService.postById(postId);

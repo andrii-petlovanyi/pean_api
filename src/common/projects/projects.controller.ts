@@ -29,6 +29,11 @@ export class ProjectsController {
     return this.projectsService.projectsList();
   }
 
+  @Get('/sitemap')
+  async projectsSitemapRoute() {
+    return this.projectsService.projectsSitemapRoute();
+  }
+
   @Get('/:projectId')
   async projectById(@Param('projectId') projectId: string) {
     return this.projectsService.projectById(projectId);
