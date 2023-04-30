@@ -21,6 +21,7 @@ export class ProjectsService {
         title: true,
         description: true,
         images: true,
+        createdAt: true,
       },
     });
 
