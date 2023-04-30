@@ -7,6 +7,7 @@ import { ProjectsModule } from '@src/common/projects/projects.module';
 import { MetaModule } from '@src/common/meta/meta.module';
 import { CommentsModule } from '@src/common/comments/comments.module';
 import { CloudinaryModule } from '@src/common/cloudinary/cloudinary.module';
+import { ImageEditorModule } from './common/image-editor/image-editor.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CloudinaryModule } from '@src/common/cloudinary/cloudinary.module';
     MetaModule,
     CommentsModule,
     CloudinaryModule,
+    ImageEditorModule,
   ],
   controllers: [],
   providers: [PrismaService],

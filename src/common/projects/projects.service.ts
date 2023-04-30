@@ -4,12 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { ProjectsDto } from '@src/common/projects/dto/projects.dto';
 import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { ImageEditorService } from '../image-editor/image-editor.service';
 
 @Injectable()
 export class ProjectsService {
   constructor(
     private readonly prisma: PrismaService,
     private cloudinaryService: CloudinaryService,
+    private imageService: ImageEditorService,
   ) {}
 
   async projectsList() {
@@ -47,8 +49,30 @@ export class ProjectsService {
   }
 
   async addProject(files: Express.Multer.File[], dto: ProjectsDto) {
-    const imagesUrl = await this.cloudinaryService.uploadImages(
-      files,
+    const optimizedImages = await Promise.allSettled(
+      files.map((file) => this.imageService.cropAndConvertToWebp(file.buffer)),
+    );
+
+    const projectsImages = optimizedImages.reduce(
+      (acc, result, index) => {
+        if (result.status === 'rejected') {
+          console.error(`Failed to optimize image ${index}:`, result.reason);
+          return acc;
+        }
+
+        const updatedImage = Object.assign({}, files[index], {
+          buffer: Buffer.from(result.value.buffer),
+        });
+
+        acc.updatedImages.push(updatedImage);
+
+        return acc;
+      },
+      { updatedImages: [] },
+    );
+
+    const imagesUrls = await this.cloudinaryService.uploadImages(
+      projectsImages.updatedImages,
       ProjectsService.name,
     );
 
@@ -56,7 +80,7 @@ export class ProjectsService {
       data: {
         id: uuidv4(),
         ...dto,
-        images: [...imagesUrl],
+        images: imagesUrls,
       },
     });
 

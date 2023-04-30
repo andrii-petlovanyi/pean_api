@@ -14,8 +14,8 @@ export class PostsDto {
   title: string;
 
   @MinLength(20, { message: 'Description must be at least 20 characters long' })
-  @MaxLength(250, {
-    message: 'Description cannot be longer than 250 characters',
+  @MaxLength(600, {
+    message: 'Description cannot be longer than 600 characters',
   })
   @IsString({ message: 'Description must be a string' })
   description: string;
