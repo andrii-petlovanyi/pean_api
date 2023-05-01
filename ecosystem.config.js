@@ -11,7 +11,7 @@ module.exports = {
       ignore_watch: ['node_modules', 'dist'],
       max_memory_restart: '1G',
       log_date_format: 'YYYY-MM-DD HH:mm Z',
-      'pre-start': 'npm i && npm run build',
+      'pre-setup': 'npm i && npm run build',
     },
   ],
 };
