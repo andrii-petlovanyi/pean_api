@@ -106,6 +106,8 @@ export class ProjectsService {
     };
   }
 
+
+  //TODO: need also update images
   async updateProject(projectId: string, dto: ProjectsDto) {
     const project = await this.prisma.project.findUnique({
       where: {
