@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ProjectsDto } from '@src/common/projects/dto/projects.dto';
+import {
+  ProjectsDto,
+  UpdateProjectsDto,
+} from '@src/common/projects/dto/projects.dto';
 import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ImageEditorService } from '../image-editor/image-editor.service';
@@ -106,9 +109,8 @@ export class ProjectsService {
     };
   }
 
-
   //TODO: need also update images
-  async updateProject(projectId: string, dto: ProjectsDto) {
+  async updateProject(projectId: string, dto: UpdateProjectsDto) {
     const project = await this.prisma.project.findUnique({
       where: {
         id: projectId,

@@ -1,6 +1,4 @@
 import {
-  ArrayMaxSize,
-  ArrayMinSize,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -40,9 +38,4 @@ export class PostsDto {
   meta_keywords?: string;
 }
 
-export class UpdatePostDto extends PostsDto {
-  @ArrayMinSize(1, { message: 'At least 1 image link is required' })
-  @ArrayMaxSize(10, { message: 'Maximum of 10 image links is allowed' })
-  @IsString({ each: true })
-  images: string[];
-}
+export class UpdatePostDto {}

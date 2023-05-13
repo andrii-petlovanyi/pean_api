@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PostsDto } from '@src/common/posts/dto/posts.dto';
+import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
 import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '@src/common/cloudinary/cloudinary.service';
 import { ImageEditorService } from '@src/common/image-editor/image-editor.service';
@@ -104,7 +104,7 @@ export class PostsService {
     };
   }
 
-  async updatePost(postId: string, dto: PostsDto) {
+  async updatePost(postId: string, dto: UpdatePostDto) {
     const post = await this.prisma.post.findUnique({
       where: {
         id: postId,
