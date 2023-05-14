@@ -4,6 +4,9 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  ArrayMinSize,
+  IsUrl,
+  ValidateNested,
 } from 'class-validator';
 
 export class ProjectsDto {
@@ -11,12 +14,27 @@ export class ProjectsDto {
   @IsString({ message: 'Title must be a string' })
   title: string;
 
-  @MinLength(20, { message: 'Description must be at least 20 characters long' })
-  @MaxLength(370, {
-    message: 'Description cannot be longer than 370 characters',
+  @MinLength(2, { message: 'Platform must be at least 2 characters long' })
+  @MaxLength(200, {
+    message: 'Platform name cannot be longer than 200 characters',
   })
-  @IsString({ message: 'Description must be a string' })
-  description: string;
+  @IsString({ message: 'Platform must be a string' })
+  platform: string;
+
+  @ArrayMinSize(1, { message: 'At least one technology is required' })
+  @IsString({ each: true, message: 'All technologies must be strings' })
+  technology: string[];
+
+  @IsUrl()
+  @IsString({ message: 'URL on demo project must be a string' })
+  url_demo?: string;
+
+  @IsUrl()
+  @IsString({ message: 'URL on project repository must be a string' })
+  url_repository?: string;
+
+  @IsString({ message: 'Project date must be a string' })
+  project_date: string;
 
   @MinLength(100, { message: 'Article must be at least 100 characters long' })
   @IsString({ message: 'Article must be a string' })

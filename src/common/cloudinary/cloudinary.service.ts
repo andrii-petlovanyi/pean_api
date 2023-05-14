@@ -37,6 +37,14 @@ export class CloudinaryService {
     return uploadedImages.map((img) => img.url);
   }
 
+  async uploadOneImage(file: Express.Multer.File, folderName: string) {
+    await this.createFolderIfNotExists(folderName);
+
+    const uploadedImages = await this.uploadImage(file, folderName);
+
+    return uploadedImages.url;
+  }
+
   private async createFolderIfNotExists(folderName: string) {
     try {
       await v2.api.create_folder(folderName);

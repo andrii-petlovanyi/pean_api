@@ -22,8 +22,7 @@ export class ProjectsService {
       select: {
         id: true,
         title: true,
-        description: true,
-        images: true,
+        img_placeholder: true,
         createdAt: true,
       },
     });
@@ -52,31 +51,17 @@ export class ProjectsService {
     return project;
   }
 
-  async addProject(files: Express.Multer.File[], dto: ProjectsDto) {
-    const optimizedImages = await Promise.allSettled(
-      files.map((file) => this.imageService.cropAndConvertToWebp(file.buffer)),
+  async addProject(file: Express.Multer.File, dto: ProjectsDto) {
+    const optimizedImage = await this.imageService.cropAndConvertToWebp(
+      file.buffer,
     );
 
-    const projectsImages = optimizedImages.reduce(
-      (acc, result, index) => {
-        if (result.status === 'rejected') {
-          console.error(`Failed to optimize image ${index}:`, result.reason);
-          return acc;
-        }
+    const updatedImage = Object.assign({}, file, {
+      buffer: Buffer.from(optimizedImage.buffer),
+    });
 
-        const updatedImage = Object.assign({}, files[index], {
-          buffer: Buffer.from(result.value.buffer),
-        });
-
-        acc.updatedImages.push(updatedImage);
-
-        return acc;
-      },
-      { updatedImages: [] },
-    );
-
-    const imagesUrls = await this.cloudinaryService.uploadImages(
-      projectsImages.updatedImages,
+    const imageUrl = await this.cloudinaryService.uploadOneImage(
+      updatedImage,
       ProjectsService.name,
     );
 
@@ -84,7 +69,7 @@ export class ProjectsService {
       data: {
         id: uuidv4(),
         ...dto,
-        images: imagesUrls,
+        img_placeholder: imageUrl,
       },
     });
 

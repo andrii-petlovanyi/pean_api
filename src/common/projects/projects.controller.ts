@@ -6,7 +6,7 @@ import {
   Param,
   Patch,
   Post,
-  UploadedFiles,
+  UploadedFile,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -18,7 +18,7 @@ import {
   ProjectsDto,
   UpdateProjectsDto,
 } from '@src/common/projects/dto/projects.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('projects')
 export class ProjectsController {
@@ -42,12 +42,12 @@ export class ProjectsController {
   @Auth()
   @Post('/')
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(FilesInterceptor('images'))
+  @UseInterceptors(FileInterceptor('image'))
   async addProject(
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFile() file: Express.Multer.File,
     @Body() dto: ProjectsDto,
   ) {
-    return this.projectsService.addProject(files, dto);
+    return this.projectsService.addProject(file, dto);
   }
 
   @Auth()
