@@ -36,6 +36,9 @@ export class PostsDto {
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   meta_keywords?: string;
+
+  @IsString({ message: 'subFolderId id must be a string' })
+  subFolderId?: string;
 }
 
 export class UpdatePostDto {}

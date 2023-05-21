@@ -2,6 +2,10 @@ export const CLOUDINARY = 'Cloudinary';
 
 import { ConfigService } from '@nestjs/config';
 
+export const constants = {
+  PROJECTS_PLACEHOLDERS: 'projects_placeholders',
+};
+
 export const getCloudinaryConfig = async (
   configService: ConfigService,
 ): Promise<any> => ({

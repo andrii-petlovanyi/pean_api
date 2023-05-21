@@ -8,6 +8,9 @@ import { MetaModule } from '@src/common/meta/meta.module';
 import { CommentsModule } from '@src/common/comments/comments.module';
 import { CloudinaryModule } from '@src/common/cloudinary/cloudinary.module';
 import { ImageEditorModule } from './common/image-editor/image-editor.module';
+import { GalleryService } from './common/gallery/gallery.service';
+import { GalleryModule } from './common/gallery/gallery.module';
+import { ImageEditorService } from './common/image-editor/image-editor.service';
 
 @Module({
   imports: [
@@ -19,8 +22,9 @@ import { ImageEditorModule } from './common/image-editor/image-editor.module';
     CommentsModule,
     CloudinaryModule,
     ImageEditorModule,
+    GalleryModule,
   ],
   controllers: [],
-  providers: [PrismaService],
+  providers: [PrismaService, GalleryService, ImageEditorService],
 })
 export class AppModule {}

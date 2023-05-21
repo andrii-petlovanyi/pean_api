@@ -6,7 +6,6 @@ import {
   MinLength,
   ArrayMinSize,
   IsUrl,
-  ValidateNested,
 } from 'class-validator';
 
 export class ProjectsDto {
@@ -54,6 +53,9 @@ export class ProjectsDto {
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   meta_keywords?: string;
+
+  @IsString({ message: 'subFolderId must be a string' })
+  subFolderId: string;
 }
 
 export class UpdateProjectsDto {}

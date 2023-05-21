@@ -39,12 +39,8 @@ export class PostsController {
   @Auth()
   @Post('/')
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(FilesInterceptor('images'))
-  async addProject(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() dto: PostsDto,
-  ) {
-    return this.postsService.addPost(files, dto);
+  async addProject(@Body() dto: PostsDto) {
+    return this.postsService.addPost(dto);
   }
 
   @Auth()

@@ -14,15 +14,15 @@ export class ImageEditorService {
   }
 
   async cropAndConvertToWebp(
-    inputImage: Buffer,
+    file: Express.Multer.File,
     width?: number,
     quality?: number,
-  ): Promise<Buffer> {
-    const widthImage = width ? width : 1280;
+  ): Promise<Express.Multer.File> {
+    const widthImage = width || 1280;
     const heightImage = Math.round((widthImage / 3) * 2);
-    const qualityImage = quality ? quality : 80;
+    const qualityImage = quality || 80;
 
-    return await sharp(inputImage)
+    const optimizedImageBuffer = await sharp(file.buffer)
       .webp({ quality: qualityImage, alphaQuality: 100 })
       .resize({
         width: widthImage,
@@ -33,6 +33,10 @@ export class ImageEditorService {
         withoutEnlargement: true,
       })
       .toBuffer();
+
+    const updatedFile = { ...file, buffer: optimizedImageBuffer };
+
+    return updatedFile;
   }
 
   async convertToWebp(inputImage: Buffer, quality?: number) {

@@ -31,7 +31,7 @@ export class ProjectsController {
 
   @Get('/sitemap')
   async projectsSitemapRoute() {
-    return this.projectsService.projectsSitemapRoute();
+    return this.projectsService.projectsSitemapRoutes();
   }
 
   @Get('/:projectId')
@@ -59,10 +59,12 @@ export class ProjectsController {
   @Auth()
   @Patch('/:projectId')
   @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('image'))
   async updateProject(
+    @UploadedFile() file: Express.Multer.File,
     @Param('projectId') projectId: string,
     @Body() dto: UpdateProjectsDto,
   ) {
-    return this.projectsService.updateProject(projectId, dto);
+    return this.projectsService.updateProject(projectId, file, dto);
   }
 }

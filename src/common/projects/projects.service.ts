@@ -8,6 +8,7 @@ import {
 import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ImageEditorService } from '../image-editor/image-editor.service';
+import { constants } from '@src/config/cloudinary.config';
 
 @Injectable()
 export class ProjectsService {
@@ -30,7 +31,7 @@ export class ProjectsService {
     return projects;
   }
 
-  async projectsSitemapRoute() {
+  async projectsSitemapRoutes() {
     return await this.prisma.project.findMany({
       select: {
         id: true,
@@ -52,17 +53,11 @@ export class ProjectsService {
   }
 
   async addProject(file: Express.Multer.File, dto: ProjectsDto) {
-    const optimizedImage = await this.imageService.cropAndConvertToWebp(
-      file.buffer,
-    );
-
-    const updatedImage = Object.assign({}, file, {
-      buffer: Buffer.from(optimizedImage.buffer),
-    });
+    const optimizedImage = await this.imageService.cropAndConvertToWebp(file);
 
     const imageUrl = await this.cloudinaryService.uploadOneImage(
-      updatedImage,
-      ProjectsService.name,
+      optimizedImage,
+      dto.title,
     );
 
     const project = await this.prisma.project.create({
@@ -94,8 +89,12 @@ export class ProjectsService {
     };
   }
 
-  //TODO: need also update images
-  async updateProject(projectId: string, dto: UpdateProjectsDto) {
+  async updateProject(
+    projectId: string,
+    file: Express.Multer.File,
+    dto: UpdateProjectsDto,
+  ) {
+    let updatedImageUrl: string | undefined;
     const project = await this.prisma.project.findUnique({
       where: {
         id: projectId,
@@ -106,11 +105,22 @@ export class ProjectsService {
       throw new NotFoundException(`Project with id ${projectId} not found`);
     }
 
+    if (file) {
+      updatedImageUrl = await this.cloudinaryService.updateOneImage(
+        file,
+        project.img_placeholder,
+        constants.PROJECTS_PLACEHOLDERS,
+      );
+    }
+
     const updatedProject = await this.prisma.project.update({
       where: {
         id: projectId,
       },
-      data: dto,
+      data: {
+        ...dto,
+        img_placeholder: updatedImageUrl || project.img_placeholder,
+      },
     });
 
     return {

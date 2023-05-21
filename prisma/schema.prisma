@@ -26,8 +26,10 @@ model Project {
   url_repository   String?
   meta_title       String?
   meta_description String?
-  meta_keywords    String?
+  meta_keywords    String[]
   createdAt        DateTime @default(now())
+  images           Album?   @relation(fields: subFolderId, references: id)
+  subFolderId      String?  @unique
 }
 
 model Post {
@@ -39,8 +41,9 @@ model Post {
   meta_description String?
   meta_keywords    String?
   createdAt        DateTime  @default(now())
-  images           String[]
   comments         Comment[]
+  images           Album?     @relation(fields: subFolderId, references: id)
+  subFolderId      String?    @unique
 }
 
 model Meta {
@@ -60,4 +63,27 @@ model Comment {
   createdAt DateTime @default(now())
   postId    String
   post      Post     @relation(fields: [postId], references: [id])
+}
+
+model GalleryFolder {
+  id         String  @id @default(uuid())
+  folderName String  @unique
+  folders    Album[]
+}
+
+model Album {
+  id              String        @id @default(uuid())
+  albumName       String        @unique
+  images          Image[]
+  galleryFolderId String
+  galleryFolder   GalleryFolder @relation(fields: galleryFolderId, references: id)
+  post            Post?
+  project         Project?
+}
+
+model Image {
+  id      String @id @default(uuid())
+  url     String
+  albumId String
+  album   Album  @relation(fields: albumId, references: id)
 }

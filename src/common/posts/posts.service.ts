@@ -20,8 +20,8 @@ export class PostsService {
         id: true,
         title: true,
         description: true,
-        images: true,
         createdAt: true,
+        images: true,
       },
     });
 
@@ -48,39 +48,11 @@ export class PostsService {
     return post;
   }
 
-  async addPost(files: Express.Multer.File[], dto: PostsDto) {
-    const optimizedImages = await Promise.allSettled(
-      files.map((file) => this.imageService.cropAndConvertToWebp(file.buffer)),
-    );
-
-    const postImages = optimizedImages.reduce(
-      (acc, result, index) => {
-        if (result.status === 'rejected') {
-          console.error(`Failed to optimize image ${index}:`, result.reason);
-          return acc;
-        }
-
-        const updatedImage = Object.assign({}, files[index], {
-          buffer: Buffer.from(result.value.buffer),
-        });
-
-        acc.updatedImages.push(updatedImage);
-
-        return acc;
-      },
-      { updatedImages: [] },
-    );
-
-    const imagesUrls = await this.cloudinaryService.uploadImages(
-      postImages.updatedImages,
-      PostsService.name,
-    );
-
+  async addPost(dto: PostsDto) {
     const post = await this.prisma.post.create({
       data: {
         id: uuidv4(),
         ...dto,
-        images: imagesUrls,
       },
     });
 
@@ -105,22 +77,16 @@ export class PostsService {
   }
 
   async updatePost(postId: string, dto: UpdatePostDto) {
-    const post = await this.prisma.post.findUnique({
-      where: {
-        id: postId,
-      },
-    });
-
-    if (!post) {
-      throw new NotFoundException(`Post with id ${postId} not found`);
-    }
-
     const updatedPost = await this.prisma.post.update({
       where: {
         id: postId,
       },
       data: dto,
     });
+
+    if (!updatedPost) {
+      throw new NotFoundException(`Post with id ${postId} not found`);
+    }
 
     return {
       message: 'Post updated successfully',
