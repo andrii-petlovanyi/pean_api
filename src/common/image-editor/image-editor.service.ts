@@ -4,13 +4,17 @@ import sharp from 'sharp';
 @Injectable()
 export class ImageEditorService {
   async cropImage(
-    inputImage: Buffer,
+    inputImage: Express.Multer.File,
     width: number,
     height: number,
-  ): Promise<Buffer> {
-    return await sharp(inputImage)
+  ): Promise<Express.Multer.File> {
+    const croppedBuffer = await sharp(inputImage.buffer)
       .resize({ width, height, fit: 'cover', position: 'centre' })
       .toBuffer();
+
+    const croppedImage = { ...inputImage, buffer: croppedBuffer };
+
+    return croppedImage;
   }
 
   async cropAndConvertToWebp(
@@ -39,11 +43,15 @@ export class ImageEditorService {
     return updatedFile;
   }
 
-  async convertToWebp(inputImage: Buffer, quality?: number) {
+  async convertToWebp(inputImage: Express.Multer.File, quality?: number) {
     const qualityImage = quality ? quality : 80;
 
-    return sharp(inputImage)
+    const convertedBuffer = sharp(inputImage.buffer)
       .webp({ quality: qualityImage, alphaQuality: 100 })
       .toBuffer();
+
+    const convertedImage = { ...inputImage, buffer: convertedBuffer };
+
+    return convertedImage;
   }
 }
