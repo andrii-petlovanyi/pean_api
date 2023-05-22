@@ -54,8 +54,9 @@ export class ProjectsDto {
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   meta_keywords?: string;
 
-  @IsString({ message: 'subFolderId must be a string' })
-  subFolderId: string;
+  @IsOptional()
+  @IsString({ message: 'albumId must be a string' })
+  albumId?: string;
 }
 
 export class UpdateProjectsDto {}

@@ -28,8 +28,8 @@ model Project {
   meta_description String?
   meta_keywords    String[]
   createdAt        DateTime @default(now())
-  images           Album?   @relation(fields: subFolderId, references: id)
-  subFolderId      String?  @unique
+  album            Album?   @relation(fields: albumId, references: id)
+  albumId          String?  @unique
 }
 
 model Post {
@@ -42,8 +42,8 @@ model Post {
   meta_keywords    String?
   createdAt        DateTime  @default(now())
   comments         Comment[]
-  images           Album?     @relation(fields: subFolderId, references: id)
-  subFolderId      String?    @unique
+  album            Album?    @relation(fields: albumId, references: id)
+  albumId          String?   @unique
 }
 
 model Meta {

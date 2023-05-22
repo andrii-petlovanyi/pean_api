@@ -21,7 +21,11 @@ export class PostsService {
         title: true,
         description: true,
         createdAt: true,
-        images: true,
+        album: {
+          select: {
+            images: true,
+          },
+        },
       },
     });
 
