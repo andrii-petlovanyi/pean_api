@@ -9,6 +9,7 @@ import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ImageEditorService } from '../image-editor/image-editor.service';
 import { constants } from '@src/config/cloudinary.config';
+import slugify from 'slugify';
 
 @Injectable()
 export class ProjectsService {
@@ -44,6 +45,13 @@ export class ProjectsService {
       where: {
         id: projectId,
       },
+      include: {
+        album: {
+          include: {
+            images: true,
+          },
+        },
+      },
     });
 
     if (!project)
@@ -53,6 +61,7 @@ export class ProjectsService {
   }
 
   async addProject(file: Express.Multer.File, dto: ProjectsDto) {
+    const slug = slugify(dto.title, { lower: true, strict: true });
     const optimizedImage = await this.imageService.cropAndConvertToWebp(file);
 
     const imageUrl = await this.cloudinaryService.uploadOneImage(
@@ -64,6 +73,7 @@ export class ProjectsService {
       data: {
         id: uuidv4(),
         ...dto,
+        slug,
         img_placeholder: imageUrl,
       },
     });
@@ -94,7 +104,6 @@ export class ProjectsService {
     file: Express.Multer.File,
     dto: UpdateProjectsDto,
   ) {
-    let updatedImageUrl: string | undefined;
     const project = await this.prisma.project.findUnique({
       where: {
         id: projectId,
@@ -105,13 +114,17 @@ export class ProjectsService {
       throw new NotFoundException(`Project with id ${projectId} not found`);
     }
 
-    if (file) {
-      updatedImageUrl = await this.cloudinaryService.updateOneImage(
-        file,
-        project.img_placeholder,
-        constants.PROJECTS_PLACEHOLDERS,
-      );
-    }
+    const slug = dto.title
+      ? slugify(dto.title, { lower: true, strict: true })
+      : project.slug;
+
+    const updatedImageUrl = file
+      ? await this.cloudinaryService.updateOneImage(
+          file,
+          project.img_placeholder,
+          constants.PROJECTS_PLACEHOLDERS,
+        )
+      : undefined;
 
     const updatedProject = await this.prisma.project.update({
       where: {
@@ -119,6 +132,7 @@ export class ProjectsService {
       },
       data: {
         ...dto,
+        slug,
         img_placeholder: updatedImageUrl || project.img_placeholder,
       },
     });

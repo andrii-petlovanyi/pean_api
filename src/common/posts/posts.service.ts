@@ -3,16 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
 import { PrismaService } from '@src/prisma.service';
-import { CloudinaryService } from '@src/common/cloudinary/cloudinary.service';
-import { ImageEditorService } from '@src/common/image-editor/image-editor.service';
+import slugify from 'slugify';
 
 @Injectable()
 export class PostsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private cloudinaryService: CloudinaryService,
-    private imageService: ImageEditorService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async postsList() {
     const posts = await this.prisma.post.findMany({
@@ -45,6 +40,13 @@ export class PostsService {
       where: {
         id: postId,
       },
+      include: {
+        album: {
+          include: {
+            images: true,
+          },
+        },
+      },
     });
 
     if (!post) throw new NotFoundException(`Post with id: ${postId} not found`);
@@ -53,10 +55,12 @@ export class PostsService {
   }
 
   async addPost(dto: PostsDto) {
+    const slug = slugify(dto.title, { lower: true, strict: true });
     const post = await this.prisma.post.create({
       data: {
         id: uuidv4(),
         ...dto,
+        slug,
       },
     });
 
@@ -81,11 +85,18 @@ export class PostsService {
   }
 
   async updatePost(postId: string, dto: UpdatePostDto) {
+    const data: any = { ...dto };
+
+    if (dto.title) {
+      const slug = slugify(dto.title, { lower: true, strict: true });
+      data.slug = slug;
+    }
+
     const updatedPost = await this.prisma.post.update({
       where: {
         id: postId,
       },
-      data: dto,
+      data,
     });
 
     if (!updatedPost) {
