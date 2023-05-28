@@ -25,6 +25,7 @@ export class ProjectsService {
         id: true,
         title: true,
         img_placeholder: true,
+        slug: true,
         createdAt: true,
       },
     });
@@ -36,6 +37,7 @@ export class ProjectsService {
     return await this.prisma.project.findMany({
       select: {
         id: true,
+        slug: true,
       },
     });
   }

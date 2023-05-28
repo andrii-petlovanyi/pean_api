@@ -15,6 +15,7 @@ export class PostsService {
         id: true,
         title: true,
         description: true,
+        slug: true,
         createdAt: true,
         album: {
           select: {
@@ -31,6 +32,7 @@ export class PostsService {
     return await this.prisma.post.findMany({
       select: {
         id: true,
+        slug: true,
       },
     });
   }
