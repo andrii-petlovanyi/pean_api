@@ -31,9 +31,9 @@ export class PostsController {
     return this.postsService.postsSitemapRoute();
   }
 
-  @Get('/:postId')
-  async projectById(@Param('postId') postId: string) {
-    return this.postsService.postById(postId);
+  @Get('/:slug')
+  async projectById(@Param('slug') slug: string) {
+    return this.postsService.postBySlug(slug);
   }
 
   @Auth()

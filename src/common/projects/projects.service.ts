@@ -42,10 +42,10 @@ export class ProjectsService {
     });
   }
 
-  async projectById(projectId: string) {
+  async projectBySlug(slug: string) {
     const project = await this.prisma.project.findUnique({
       where: {
-        id: projectId,
+        slug,
       },
       include: {
         album: {
@@ -57,7 +57,7 @@ export class ProjectsService {
     });
 
     if (!project)
-      throw new NotFoundException(`Project with id: ${projectId} not found`);
+      throw new NotFoundException(`Project with slug: ${slug} not found`);
 
     return project;
   }

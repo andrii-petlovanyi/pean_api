@@ -37,10 +37,10 @@ export class PostsService {
     });
   }
 
-  async postById(postId: string) {
+  async postBySlug(slug: string) {
     const post = await this.prisma.post.findUnique({
       where: {
-        id: postId,
+        slug,
       },
       include: {
         album: {
@@ -51,7 +51,7 @@ export class PostsService {
       },
     });
 
-    if (!post) throw new NotFoundException(`Post with id: ${postId} not found`);
+    if (!post) throw new NotFoundException(`Post with slug: ${slug} not found`);
 
     return post;
   }

@@ -34,9 +34,9 @@ export class ProjectsController {
     return this.projectsService.projectsSitemapRoutes();
   }
 
-  @Get('/:projectId')
-  async projectById(@Param('projectId') projectId: string) {
-    return this.projectsService.projectById(projectId);
+  @Get('/:slug')
+  async projectById(@Param('slug') slug: string) {
+    return this.projectsService.projectBySlug(slug);
   }
 
   @Auth()
