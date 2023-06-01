@@ -34,7 +34,7 @@ export class GalleryService {
       select: {
         id: true,
         folderName: true,
-        folders: true,
+        albums: true,
       },
     });
 
@@ -60,7 +60,6 @@ export class GalleryService {
 
     return {
       message: `Gallery folder ${dto.folderName} created successfully`,
-      galleryFolder: folder,
     };
   }
 
@@ -98,7 +97,6 @@ export class GalleryService {
 
     return {
       message: `Gallery folder with id: ${galleryFolderId} has been updated`,
-      folder,
     };
   }
 
@@ -162,7 +160,6 @@ export class GalleryService {
 
     return {
       message: `Album ${dto.albumName} created successfully`,
-      album,
     };
   }
 
@@ -172,12 +169,9 @@ export class GalleryService {
     files: Express.Multer.File[],
   ) {
     const { albumName, images } = dto;
-    let updatedAlbum;
 
     if (images && images.length > 0) {
-      updatedAlbum = await Promise.all(
-        images.map((imageId) => this.deleteImage(imageId)),
-      );
+      await Promise.all(images.map((imageId) => this.deleteImage(imageId)));
     }
 
     if (files && files.length > 0) {
@@ -196,11 +190,11 @@ export class GalleryService {
         }),
       );
 
-      updatedAlbum = await this.prismaService.$transaction(imageCreations);
+      await this.prismaService.$transaction(imageCreations);
     }
 
     if (albumName) {
-      updatedAlbum = await this.prismaService.album.update({
+      await this.prismaService.album.update({
         where: {
           id: albumId,
         },
@@ -222,7 +216,6 @@ export class GalleryService {
 
     return {
       message: `Album with id: ${albumId} updated successfully`,
-      album: updatedAlbum,
     };
   }
 

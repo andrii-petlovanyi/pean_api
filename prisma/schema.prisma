@@ -70,7 +70,7 @@ model Comment {
 model GalleryFolder {
   id         String  @id @default(uuid())
   folderName String  @unique
-  folders    Album[]
+  albums    Album[]
 }
 
 model Album {
