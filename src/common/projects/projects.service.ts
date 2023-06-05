@@ -24,7 +24,7 @@ export class ProjectsService {
       select: {
         id: true,
         title: true,
-        img_placeholder: true,
+        imgPlaceholder: true,
         slug: true,
         createdAt: true,
       },
@@ -76,7 +76,7 @@ export class ProjectsService {
         id: uuidv4(),
         ...dto,
         slug,
-        img_placeholder: imageUrl,
+        imgPlaceholder: imageUrl,
       },
     });
 
@@ -123,7 +123,7 @@ export class ProjectsService {
     const updatedImageUrl = file
       ? await this.cloudinaryService.updateOneImage(
           file,
-          project.img_placeholder,
+          project.imgPlaceholder,
           constants.PROJECTS_PLACEHOLDERS,
         )
       : undefined;
@@ -135,7 +135,7 @@ export class ProjectsService {
       data: {
         ...dto,
         slug,
-        img_placeholder: updatedImageUrl || project.img_placeholder,
+        imgPlaceholder: updatedImageUrl || project.imgPlaceholder,
       },
     });
 

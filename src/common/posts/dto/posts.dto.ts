@@ -25,17 +25,17 @@ export class PostsDto {
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta title cannot be empty' })
-  meta_title?: string;
+  metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta description cannot be empty' })
-  meta_description?: string;
+  metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
-  meta_keywords?: string;
+  metaKeywords?: string;
 
   @IsOptional()
   @IsString({ message: 'albumId id must be a string' })
@@ -64,17 +64,17 @@ export class UpdatePostDto {
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta title cannot be empty' })
-  meta_title?: string;
+  metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta description cannot be empty' })
-  meta_description?: string;
+  metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
-  meta_keywords?: string;
+  metaKeywords?: string;
 
   @IsOptional()
   @IsString({ message: 'albumId id must be a string' })

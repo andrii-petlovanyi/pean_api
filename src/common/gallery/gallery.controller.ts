@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UploadedFiles,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { GalleryService } from './gallery.service';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Album, GalleryFolder, UpdateAlbum } from './dto/gallery.dto';
 import { Auth } from '../users/decorator/auth.decorator';
 
@@ -25,8 +28,13 @@ export class GalleryController {
 
   @Auth()
   @Post('/')
-  async createGalleryFolder(@Body() dto: GalleryFolder) {
-    return await this.galleryService.createGalleryFolder(dto);
+  @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('placeholder'))
+  async createGalleryFolder(
+    @UploadedFile() imgPlaceholder: Express.Multer.File,
+    @Body() dto: GalleryFolder,
+  ) {
+    return await this.galleryService.createGalleryFolder(imgPlaceholder, dto);
   }
 
   @Auth()
@@ -37,11 +45,18 @@ export class GalleryController {
 
   @Auth()
   @Patch('/:galleryFolderId')
+  @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('placeholder'))
   async updateGalleryFolder(
     @Param('galleryFolderId') galleryFolderId: string,
+    @UploadedFile() imgPlaceholder: Express.Multer.File,
     @Body() dto: GalleryFolder,
   ) {
-    return await this.galleryService.updateGalleryFolder(galleryFolderId, dto);
+    return await this.galleryService.updateGalleryFolder(
+      galleryFolderId,
+      imgPlaceholder,
+      dto,
+    );
   }
 
   @Get('/:galleryFolderId')
@@ -60,9 +75,13 @@ export class GalleryController {
   async createAlbum(
     @Param('galleryFolderId') galleryFolderId: string,
     @Body() dto: Album,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles() images: Express.Multer.File[],
   ) {
-    return await this.galleryService.addImgInAlbum(files, dto, galleryFolderId);
+    return await this.galleryService.addImgInAlbum(
+      images,
+      dto,
+      galleryFolderId,
+    );
   }
 
   @Auth()
@@ -71,9 +90,9 @@ export class GalleryController {
   async updateAlbum(
     @Param('albumId') albumId: string,
     @Body() dto: UpdateAlbum,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles() images: Express.Multer.File[],
   ) {
-    return await this.galleryService.updateAlbum(albumId, dto, files);
+    return await this.galleryService.updateAlbum(albumId, dto, images);
   }
 
   @Auth()

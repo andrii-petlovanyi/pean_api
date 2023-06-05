@@ -14,15 +14,15 @@ CREATE TABLE "Project" (
     "slug" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "article" TEXT NOT NULL,
-    "project_date" TEXT NOT NULL,
-    "img_placeholder" TEXT NOT NULL,
+    "projectDate" TEXT NOT NULL,
+    "imgPlaceholder" TEXT NOT NULL,
     "technology" TEXT[],
     "platform" TEXT NOT NULL,
-    "url_demo" TEXT,
-    "url_repository" TEXT,
-    "meta_title" TEXT,
-    "meta_description" TEXT,
-    "meta_keywords" TEXT[],
+    "urlDemo" TEXT,
+    "urlRepository" TEXT,
+    "metaTitle" TEXT,
+    "metaDescription" TEXT,
+    "metaKeywords" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "albumId" TEXT,
 
@@ -36,9 +36,9 @@ CREATE TABLE "Post" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "article" TEXT NOT NULL,
-    "meta_title" TEXT,
-    "meta_description" TEXT,
-    "meta_keywords" TEXT,
+    "metaTitle" TEXT,
+    "metaDescription" TEXT,
+    "metaKeywords" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "albumId" TEXT,
 
@@ -49,11 +49,11 @@ CREATE TABLE "Post" (
 CREATE TABLE "Meta" (
     "id" TEXT NOT NULL,
     "page" TEXT NOT NULL,
-    "meta_title" TEXT,
-    "meta_description" TEXT,
-    "meta_keywords" TEXT,
-    "meta_image" TEXT,
-    "meta_author" TEXT,
+    "metaTitle" TEXT,
+    "metaDescription" TEXT,
+    "metaKeywords" TEXT,
+    "metaImage" TEXT,
+    "metaAuthor" TEXT,
 
     CONSTRAINT "Meta_pkey" PRIMARY KEY ("id")
 );
@@ -73,6 +73,7 @@ CREATE TABLE "Comment" (
 CREATE TABLE "GalleryFolder" (
     "id" TEXT NOT NULL,
     "folderName" TEXT NOT NULL,
+    "imgPlaceholder" TEXT NOT NULL,
 
     CONSTRAINT "GalleryFolder_pkey" PRIMARY KEY ("id")
 );

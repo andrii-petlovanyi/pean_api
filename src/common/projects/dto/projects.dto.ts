@@ -26,14 +26,14 @@ export class ProjectsDto {
 
   @IsUrl()
   @IsString({ message: 'URL on demo project must be a string' })
-  url_demo?: string;
+  urlDemo?: string;
 
   @IsUrl()
   @IsString({ message: 'URL on project repository must be a string' })
-  url_repository?: string;
+  urlRepository?: string;
 
   @IsString({ message: 'Project date must be a string' })
-  project_date: string;
+  projectDate: string;
 
   @MinLength(100, { message: 'Article must be at least 100 characters long' })
   @IsString({ message: 'Article must be a string' })
@@ -42,17 +42,17 @@ export class ProjectsDto {
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta title cannot be empty' })
-  meta_title?: string;
+  metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta description cannot be empty' })
-  meta_description?: string;
+  metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
-  meta_keywords?: string;
+  metaKeywords?: string;
 
   @IsOptional()
   @IsString({ message: 'albumId must be a string' })
@@ -81,16 +81,16 @@ export class UpdateProjectsDto {
   @IsUrl()
   @IsString({ message: 'URL on demo project must be a string' })
   @IsOptional()
-  url_demo?: string;
+  urlDemo?: string;
 
   @IsUrl()
   @IsString({ message: 'URL on project repository must be a string' })
   @IsOptional()
-  url_repository?: string;
+  urlRepository?: string;
 
   @IsString({ message: 'Project date must be a string' })
   @IsOptional()
-  project_date: string;
+  projectDate: string;
 
   @MinLength(100, { message: 'Article must be at least 100 characters long' })
   @IsString({ message: 'Article must be a string' })
@@ -100,17 +100,17 @@ export class UpdateProjectsDto {
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta title cannot be empty' })
-  meta_title?: string;
+  metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta description cannot be empty' })
-  meta_description?: string;
+  metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
   @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
-  meta_keywords?: string;
+  metaKeywords?: string;
 
   @IsOptional()
   @IsString({ message: 'albumId must be a string' })

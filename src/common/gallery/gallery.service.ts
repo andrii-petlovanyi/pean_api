@@ -7,7 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '@src/prisma.service';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { ImageEditorService } from '../image-editor/image-editor.service';
-import { Album, GalleryFolder, UpdateAlbum } from './dto/gallery.dto';
+import {
+  Album,
+  GalleryFolder,
+  UpdateAlbum,
+  UpdateGalleryFolder,
+} from './dto/gallery.dto';
+import { constants } from '@src/config/cloudinary.config';
 
 @Injectable()
 export class GalleryService {
@@ -22,6 +28,7 @@ export class GalleryService {
       select: {
         id: true,
         folderName: true,
+        imgPlaceholder: true,
       },
     });
   }
@@ -46,17 +53,27 @@ export class GalleryService {
     return folder;
   }
 
-  async createGalleryFolder(dto: GalleryFolder) {
+  async createGalleryFolder(file: Express.Multer.File, dto: GalleryFolder) {
+    const optimizedImage = await this.imageService.cropAndConvertToWebp(file);
+    const imageUrl = await this.cloudinaryService.uploadOneImage(
+      optimizedImage,
+      constants.FOLDERS_PLACEHOLDERS,
+    );
+
     const folder = await this.prismaService.galleryFolder.create({
       data: {
         ...dto,
+        imgPlaceholder: imageUrl,
       },
     });
 
-    if (!folder)
+    if (!folder) {
+      await this.cloudinaryService.deleteOneImage(imageUrl);
+
       throw new ConflictException(
         `Gallery folder with this name: ${dto.folderName} is exists`,
       );
+    }
 
     return {
       message: `Gallery folder ${dto.folderName} created successfully`,
@@ -75,18 +92,21 @@ export class GalleryService {
         `Gallery folder with id: ${galleryFolderId} not found`,
       );
 
+    await this.cloudinaryService.deleteOneImage(folder.imgPlaceholder);
+
     return {
       message: `Gallery folder with id: ${galleryFolderId} has been deleted`,
     };
   }
 
-  async updateGalleryFolder(galleryFolderId: string, dto: GalleryFolder) {
-    const folder = await this.prismaService.galleryFolder.update({
+  async updateGalleryFolder(
+    galleryFolderId: string,
+    file: Express.Multer.File,
+    dto: UpdateGalleryFolder,
+  ) {
+    const folder = await this.prismaService.galleryFolder.findUnique({
       where: {
         id: galleryFolderId,
-      },
-      data: {
-        ...dto,
       },
     });
 
@@ -94,6 +114,24 @@ export class GalleryService {
       throw new NotFoundException(
         `Gallery folder with id: ${galleryFolderId} not found`,
       );
+
+    const updatedImgUrl = file
+      ? await this.cloudinaryService.updateOneImage(
+          file,
+          folder.imgPlaceholder,
+          constants.FOLDERS_PLACEHOLDERS,
+        )
+      : undefined;
+
+    await this.prismaService.galleryFolder.update({
+      where: {
+        id: galleryFolderId,
+      },
+      data: {
+        ...dto,
+        imgPlaceholder: updatedImgUrl || folder.imgPlaceholder,
+      },
+    });
 
     return {
       message: `Gallery folder with id: ${galleryFolderId} has been updated`,

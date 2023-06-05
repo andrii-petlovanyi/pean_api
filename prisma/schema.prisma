@@ -15,47 +15,47 @@ model User {
 }
 
 model Project {
-  id               String   @id @default(uuid())
-  slug             String   @unique
-  title            String
-  article          String
-  project_date     String
-  img_placeholder  String
-  technology       String[]
-  platform         String
-  url_demo         String?
-  url_repository   String?
-  meta_title       String?
-  meta_description String?
-  meta_keywords    String[]
-  createdAt        DateTime @default(now())
-  album            Album?   @relation(fields: albumId, references: id)
-  albumId          String?  @unique
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  title           String
+  article         String
+  projectDate     String
+  imgPlaceholder  String
+  technology      String[]
+  platform        String
+  urlDemo         String?
+  urlRepository   String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[]
+  createdAt       DateTime @default(now())
+  album           Album?   @relation(fields: albumId, references: id)
+  albumId         String?  @unique
 }
 
 model Post {
-  id               String    @id @default(uuid())
-  slug             String    @unique
-  title            String
-  description      String
-  article          String
-  meta_title       String?
-  meta_description String?
-  meta_keywords    String?
-  createdAt        DateTime  @default(now())
-  comments         Comment[]
-  album            Album?    @relation(fields: albumId, references: id)
-  albumId          String?   @unique
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  title           String
+  description     String
+  article         String
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+  createdAt       DateTime  @default(now())
+  comments        Comment[]
+  album           Album?    @relation(fields: albumId, references: id)
+  albumId         String?   @unique
 }
 
 model Meta {
-  id               String  @id @default(uuid())
-  page             String  @unique
-  meta_title       String?
-  meta_description String?
-  meta_keywords    String?
-  meta_image       String?
-  meta_author      String?
+  id              String  @id @default(uuid())
+  page            String  @unique
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+  metaImage       String?
+  metaAuthor      String?
 }
 
 model Comment {
@@ -68,9 +68,10 @@ model Comment {
 }
 
 model GalleryFolder {
-  id         String  @id @default(uuid())
-  folderName String  @unique
-  albums    Album[]
+  id             String  @id @default(uuid())
+  folderName     String  @unique
+  imgPlaceholder String
+  albums         Album[]
 }
 
 model Album {

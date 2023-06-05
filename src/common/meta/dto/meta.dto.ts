@@ -6,7 +6,7 @@ export class MetaDto {
 
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional({ message: 'Meta title is optional' })
-  meta_title?: string;
+  metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional({ message: 'Meta description is optional' })
@@ -16,17 +16,17 @@ export class MetaDto {
   @MaxLength(250, {
     message: 'Meta description must be at most 250 characters',
   })
-  meta_description?: string;
+  metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional({ message: 'Meta keywords is optional' })
-  meta_keywords?: string;
+  metaKeywords?: string;
 
   @IsString({ message: 'Meta image must be a string' })
   @IsOptional({ message: 'Meta image is optional' })
-  meta_image?: string;
+  metaImage?: string;
 
   @IsString({ message: 'Meta author must be a string' })
   @IsOptional({ message: 'Meta author is optional' })
-  meta_author?: string;
+  metaAuthor?: string;
 }

@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 export const constants = {
   PROJECTS_PLACEHOLDERS: 'projects_placeholders',
+  FOLDERS_PLACEHOLDERS: 'folders_placeholders',
 };
 
 export const getCloudinaryConfig = async (

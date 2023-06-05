@@ -1,4 +1,10 @@
-import { ArrayNotEmpty, IsArray, IsString, MinLength } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class Album {
   @MinLength(5, { message: 'Album name must be at least 5 characters long' })
@@ -17,7 +23,18 @@ export class UpdateAlbum {
 }
 
 export class GalleryFolder {
-  @MinLength(5, { message: 'Folder name must be at least 5 characters long' })
+  @MinLength(2, { message: 'Folder name must be at least 5 characters long' })
   @IsString({ message: 'Folder name must be a string' })
   folderName: string;
+}
+
+export class UpdateGalleryFolder {
+  @MinLength(2, { message: 'Folder name must be at least 5 characters long' })
+  @IsString({ message: 'Folder name must be a string' })
+  @IsOptional()
+  folderName?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Folder name must be a string' })
+  imgPlaceholder?: string;
 }
