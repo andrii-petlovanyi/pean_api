@@ -5,13 +5,14 @@ import { PrismaService } from '@src/prisma.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   const PORT = process.env.PORT || 3003;
+  const ELECTRON_PORT = process.env.ELECTRON_PORT || 5173;
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
 
   app.setGlobalPrefix('api');
   app.enableCors({
-    origin: [`http://127.0.0.1:${PORT}`],
+    origin: [`http://127.0.0.1:${PORT}`, `http://localhost:${ELECTRON_PORT}`],
     methods: '*',
     credentials: true,
   });
