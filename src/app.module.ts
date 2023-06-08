@@ -11,6 +11,7 @@ import { ImageEditorModule } from './common/image-editor/image-editor.module';
 import { GalleryService } from './common/gallery/gallery.service';
 import { GalleryModule } from './common/gallery/gallery.module';
 import { ImageEditorService } from './common/image-editor/image-editor.service';
+import { GoogleStrategy } from './common/users/strategy/google.strategy';
 
 @Module({
   imports: [
@@ -25,6 +26,11 @@ import { ImageEditorService } from './common/image-editor/image-editor.service';
     GalleryModule,
   ],
   controllers: [],
-  providers: [PrismaService, GalleryService, ImageEditorService],
+  providers: [
+    PrismaService,
+    GalleryService,
+    ImageEditorService,
+    GoogleStrategy,
+  ],
 })
 export class AppModule {}

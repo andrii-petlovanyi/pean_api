@@ -16,6 +16,17 @@ import { PrismaService } from '@src/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
+  async googleLogin(req: any) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+
+    return {
+      message: 'User information from google',
+      user: req.user,
+    };
+  }
+
   async signIn(dto: UsersDto) {
     const user = await this.validateUser(dto);
     const token = await this.issueToken(user.id);

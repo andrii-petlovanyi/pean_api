@@ -4,6 +4,8 @@ import {
   Get,
   HttpCode,
   Post,
+  Request,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -13,10 +15,21 @@ import { UsersDto } from '@src/common/users/dto/users.dto';
 import { UsersService } from '@src/common/users/users.service';
 import { CurrentUser } from '@src/common/users/decorator/user.decorator';
 import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { GoogleOAuthGuard } from './decorator/google.decoator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('gIn')
+  @UseGuards(GoogleOAuthGuard)
+  async googleAuth(@Request() req) {}
+
+  @Get('gIn/redirect')
+  @UseGuards(GoogleOAuthGuard)
+  googleAuthRedirect(@Request() req) {
+    return this.usersService.googleLogin(req);
+  }
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
