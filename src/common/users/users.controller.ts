@@ -15,7 +15,7 @@ import { UsersDto } from '@src/common/users/dto/users.dto';
 import { UsersService } from '@src/common/users/users.service';
 import { CurrentUser } from '@src/common/users/decorator/user.decorator';
 import { Auth } from '@src/common/users/decorator/auth.decorator';
-import { GoogleOAuthGuard } from './decorator/google.decoator';
+import { GoogleOAuthGuard } from './decorator/google.decorator';
 
 @Controller('users')
 export class UsersController {
