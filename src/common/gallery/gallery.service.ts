@@ -29,6 +29,10 @@ export class GalleryService {
         id: true,
         folderName: true,
         imgPlaceholder: true,
+        imgPlaceholderId: true,
+      },
+      orderBy: {
+        updatedAt: 'desc',
       },
     });
   }
@@ -41,7 +45,16 @@ export class GalleryService {
       select: {
         id: true,
         folderName: true,
-        albums: true,
+        albums: {
+          select: {
+            id: true,
+            albumName: true,
+            images: true,
+          },
+          orderBy: {
+            updatedAt: 'desc',
+          },
+        },
       },
     });
 
@@ -54,8 +67,11 @@ export class GalleryService {
   }
 
   async createGalleryFolder(file: Express.Multer.File, dto: GalleryFolder) {
-    const optimizedImage = await this.imageService.cropAndConvertToWebp(file);
-    const imageUrl = await this.cloudinaryService.uploadOneImage(
+    const optimizedImage = await this.imageService.cropAndConvertToWebp(
+      file,
+      400,
+    );
+    const imageData = await this.cloudinaryService.uploadOneImage(
       optimizedImage,
       constants.FOLDERS_PLACEHOLDERS,
     );
@@ -63,12 +79,13 @@ export class GalleryService {
     const folder = await this.prismaService.galleryFolder.create({
       data: {
         ...dto,
-        imgPlaceholder: imageUrl,
+        imgPlaceholder: imageData.url,
+        imgPlaceholderId: imageData.publicId,
       },
     });
 
     if (!folder) {
-      await this.cloudinaryService.deleteOneImage(imageUrl);
+      await this.cloudinaryService.deleteOneImage(imageData.publicId);
 
       throw new ConflictException(
         `Gallery folder with this name: ${dto.folderName} is exists`,
@@ -92,7 +109,7 @@ export class GalleryService {
         `Gallery folder with id: ${galleryFolderId} not found`,
       );
 
-    await this.cloudinaryService.deleteOneImage(folder.imgPlaceholder);
+    await this.cloudinaryService.deleteOneImage(folder.imgPlaceholderId);
 
     return {
       message: `Gallery folder with id: ${galleryFolderId} has been deleted`,
@@ -115,9 +132,13 @@ export class GalleryService {
         `Gallery folder with id: ${galleryFolderId} not found`,
       );
 
-    const updatedImgUrl = file
+    const optimizedImage = file
+      ? await this.imageService.cropAndConvertToWebp(file, 400)
+      : undefined;
+
+    const updatedImgData = file
       ? await this.cloudinaryService.updateOneImage(
-          file,
+          optimizedImage,
           folder.imgPlaceholder,
           constants.FOLDERS_PLACEHOLDERS,
         )
@@ -129,7 +150,8 @@ export class GalleryService {
       },
       data: {
         ...dto,
-        imgPlaceholder: updatedImgUrl || folder.imgPlaceholder,
+        imgPlaceholder: updatedImgData?.url || folder.imgPlaceholder,
+        imgPlaceholderId: updatedImgData?.publicId || folder.imgPlaceholderId,
       },
     });
 
@@ -188,9 +210,13 @@ export class GalleryService {
       },
     });
 
-    const imageCreations = imagesUrls.map((url) =>
+    const imageCreations = imagesUrls.map((imgData) =>
       this.prismaService.image.create({
-        data: { url, albumId: album.id },
+        data: {
+          url: imgData.url,
+          publicId: imgData.publicId,
+          albumId: album.id,
+        },
       }),
     );
 
@@ -222,9 +248,13 @@ export class GalleryService {
         albumName,
       );
 
-      const imageCreations = imagesUrls.map((url) =>
+      const imageCreations = imagesUrls.map((imgData) =>
         this.prismaService.image.create({
-          data: { url, albumId: albumId },
+          data: {
+            url: imgData.url,
+            publicId: imgData.publicId,
+            albumId: albumId,
+          },
         }),
       );
 
@@ -296,7 +326,7 @@ export class GalleryService {
     if (!image)
       throw new NotFoundException(`Image with id: ${imageId} not found`);
 
-    await this.cloudinaryService.deleteOneImage(image.url);
+    await this.cloudinaryService.deleteOneImage(image.publicId);
 
     return;
   }

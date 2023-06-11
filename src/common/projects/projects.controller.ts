@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { Auth } from '@src/common/users/guard/auth.guard';
 import { ProjectsService } from '@src/common/projects/projects.service';
 import {
   ProjectsDto,

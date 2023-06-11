@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { Auth } from '@src/common/users/guard/auth.guard';
 import { PostsService } from '@src/common/posts/posts.service';
 import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';

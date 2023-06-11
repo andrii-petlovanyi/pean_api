@@ -15,22 +15,24 @@ model User {
 }
 
 model Project {
-  id              String   @id @default(uuid())
-  slug            String   @unique
-  title           String
-  article         String
-  projectDate     String
-  imgPlaceholder  String
-  technology      String[]
-  platform        String
-  urlDemo         String?
-  urlRepository   String?
-  metaTitle       String?
-  metaDescription String?
-  metaKeywords    String[]
-  createdAt       DateTime @default(now())
-  album           Album?   @relation(fields: albumId, references: id)
-  albumId         String?  @unique
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  title            String
+  article          String
+  projectDate      String
+  imgPlaceholder   String
+  imgPlaceholderId String
+  technology       String[]
+  platform         String
+  urlDemo          String?
+  urlRepository    String?
+  metaTitle        String?
+  metaDescription  String?
+  metaKeywords     String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  album            Album?   @relation(fields: albumId, references: id)
+  albumId          String?  @unique
 }
 
 model Post {
@@ -43,6 +45,7 @@ model Post {
   metaDescription String?
   metaKeywords    String?
   createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   comments        Comment[]
   album           Album?    @relation(fields: albumId, references: id)
   albumId         String?   @unique
@@ -68,16 +71,21 @@ model Comment {
 }
 
 model GalleryFolder {
-  id             String  @id @default(uuid())
-  folderName     String  @unique
-  imgPlaceholder String
-  albums         Album[]
+  id               String   @id @default(uuid())
+  folderName       String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  imgPlaceholder   String
+  imgPlaceholderId String
+  albums           Album[]
 }
 
 model Album {
   id              String        @id @default(uuid())
   albumName       String        @unique
   images          Image[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
   galleryFolderId String
   galleryFolder   GalleryFolder @relation(fields: galleryFolderId, references: id)
   post            Post?
@@ -85,8 +93,9 @@ model Album {
 }
 
 model Image {
-  id      String @id @default(uuid())
-  url     String
-  albumId String
-  album   Album  @relation(fields: albumId, references: id)
+  id       String @id @default(uuid())
+  url      String
+  albumId  String
+  publicId String
+  album    Album  @relation(fields: albumId, references: id)
 }

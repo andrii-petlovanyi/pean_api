@@ -15,7 +15,7 @@ import {
 import { GalleryService } from './gallery.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Album, GalleryFolder, UpdateAlbum } from './dto/gallery.dto';
-import { Auth } from '../users/decorator/auth.decorator';
+import { Auth } from '../users/guard/auth.guard';
 
 @Controller('gallery')
 export class GalleryController {
@@ -29,7 +29,7 @@ export class GalleryController {
   @Auth()
   @Post('/')
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(FileInterceptor('placeholder'))
+  @UseInterceptors(FileInterceptor('imgPlaceholder'))
   async createGalleryFolder(
     @UploadedFile() imgPlaceholder: Express.Multer.File,
     @Body() dto: GalleryFolder,
@@ -46,7 +46,7 @@ export class GalleryController {
   @Auth()
   @Patch('/:galleryFolderId')
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(FileInterceptor('placeholder'))
+  @UseInterceptors(FileInterceptor('imgPlaceholder'))
   async updateGalleryFolder(
     @Param('galleryFolderId') galleryFolderId: string,
     @UploadedFile() imgPlaceholder: Express.Multer.File,

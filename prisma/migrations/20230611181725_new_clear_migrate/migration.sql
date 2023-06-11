@@ -16,6 +16,7 @@ CREATE TABLE "Project" (
     "article" TEXT NOT NULL,
     "projectDate" TEXT NOT NULL,
     "imgPlaceholder" TEXT NOT NULL,
+    "imgPlaceholderId" TEXT NOT NULL,
     "technology" TEXT[],
     "platform" TEXT NOT NULL,
     "urlDemo" TEXT,
@@ -24,6 +25,7 @@ CREATE TABLE "Project" (
     "metaDescription" TEXT,
     "metaKeywords" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "albumId" TEXT,
 
     CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
@@ -40,6 +42,7 @@ CREATE TABLE "Post" (
     "metaDescription" TEXT,
     "metaKeywords" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "albumId" TEXT,
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
@@ -73,7 +76,10 @@ CREATE TABLE "Comment" (
 CREATE TABLE "GalleryFolder" (
     "id" TEXT NOT NULL,
     "folderName" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "imgPlaceholder" TEXT NOT NULL,
+    "imgPlaceholderId" TEXT NOT NULL,
 
     CONSTRAINT "GalleryFolder_pkey" PRIMARY KEY ("id")
 );
@@ -82,6 +88,8 @@ CREATE TABLE "GalleryFolder" (
 CREATE TABLE "Album" (
     "id" TEXT NOT NULL,
     "albumName" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "galleryFolderId" TEXT NOT NULL,
 
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
@@ -92,6 +100,7 @@ CREATE TABLE "Image" (
     "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "albumId" TEXT NOT NULL,
+    "publicId" TEXT NOT NULL,
 
     CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );

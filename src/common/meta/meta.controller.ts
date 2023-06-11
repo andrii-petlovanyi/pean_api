@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { Auth } from '@src/common/users/decorator/auth.decorator';
+import { Auth } from '@src/common/users/guard/auth.guard';
 import { MetaService } from '@src/common/meta/meta.service';
 import { MetaDto } from '@src/common/meta/dto/meta.dto';
 

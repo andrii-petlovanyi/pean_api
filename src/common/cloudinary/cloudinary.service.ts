@@ -34,15 +34,17 @@ export class CloudinaryService {
       ),
     );
 
-    return uploadedImages.map((img) => img.url);
+    return uploadedImages.map((img) => ({
+      url: img.url,
+      publicId: img.public_id,
+    }));
   }
 
   async uploadOneImage(file: Express.Multer.File, folderName: string) {
     await this.createFolderIfNotExists(folderName);
 
-    const uploadedImages = await this.uploadImage(file, folderName);
-
-    return uploadedImages.url;
+    const uploadedImage = await this.uploadImage(file, folderName);
+    return { url: uploadedImage.url, publicId: uploadedImage.public_id };
   }
 
   async updateOneImage(
@@ -55,24 +57,10 @@ export class CloudinaryService {
     return await this.uploadOneImage(file, folderName);
   }
 
-  async deleteOneImage(imageUrl: string) {
-    const publicId = this.getPublicIdFromUrl(imageUrl);
-
-    if (publicId) {
-      await v2.uploader.destroy(publicId);
-    }
+  async deleteOneImage(publicId: string) {
+    return await v2.uploader.destroy(publicId);
   }
 
-  private getPublicIdFromUrl(imageUrl: string): string | undefined {
-    const publicIdRegex = /\/[^/]+\/([^?]+)/;
-    const matches = imageUrl.match(publicIdRegex);
-
-    if (matches && matches.length > 1) {
-      return matches[1];
-    }
-
-    return undefined;
-  }
 
   private async createFolderIfNotExists(folderName: string) {
     try {
@@ -86,6 +74,4 @@ export class CloudinaryService {
       }
     }
   }
-
-  
 }

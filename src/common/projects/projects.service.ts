@@ -27,6 +27,10 @@ export class ProjectsService {
         imgPlaceholder: true,
         slug: true,
         createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: {
+        updatedAt: 'desc',
       },
     });
 
@@ -66,7 +70,7 @@ export class ProjectsService {
     const slug = slugify(dto.title, { lower: true, strict: true });
     const optimizedImage = await this.imageService.cropAndConvertToWebp(file);
 
-    const imageUrl = await this.cloudinaryService.uploadOneImage(
+    const imageData = await this.cloudinaryService.uploadOneImage(
       optimizedImage,
       dto.title,
     );
@@ -76,7 +80,8 @@ export class ProjectsService {
         id: uuidv4(),
         ...dto,
         slug,
-        imgPlaceholder: imageUrl,
+        imgPlaceholder: imageData.url,
+        imgPlaceholderId: imageData.publicId,
       },
     });
 
@@ -120,7 +125,7 @@ export class ProjectsService {
       ? slugify(dto.title, { lower: true, strict: true })
       : project.slug;
 
-    const updatedImageUrl = file
+    const updatedImageData = file
       ? await this.cloudinaryService.updateOneImage(
           file,
           project.imgPlaceholder,
@@ -135,7 +140,9 @@ export class ProjectsService {
       data: {
         ...dto,
         slug,
-        imgPlaceholder: updatedImageUrl || project.imgPlaceholder,
+        imgPlaceholder: updatedImageData?.url || project.imgPlaceholder,
+        imgPlaceholderId:
+          updatedImageData?.publicId || project.imgPlaceholderId,
       },
     });
 

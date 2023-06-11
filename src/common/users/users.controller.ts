@@ -14,8 +14,8 @@ import { User } from '@prisma/client';
 import { UsersDto } from '@src/common/users/dto/users.dto';
 import { UsersService } from '@src/common/users/users.service';
 import { CurrentUser } from '@src/common/users/decorator/user.decorator';
-import { Auth } from '@src/common/users/decorator/auth.decorator';
-import { GoogleOAuthGuard } from './decorator/google.decorator';
+import { Auth } from '@src/common/users/guard/auth.guard';
+import { GoogleOAuthGuard } from './guard/google.guard';
 
 @Controller('users')
 export class UsersController {
