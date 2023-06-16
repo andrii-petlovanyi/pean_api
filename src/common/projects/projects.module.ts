@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CACHE_MANAGER, CacheModule, Module } from '@nestjs/common';
 
 import { ProjectsService } from '@src/common/projects/projects.service';
 import { ProjectsController } from '@src/common/projects/projects.controller';
@@ -9,6 +9,14 @@ import { ImageEditorService } from '../image-editor/image-editor.service';
 @Module({
   imports: [CloudinaryModule],
   controllers: [ProjectsController],
-  providers: [ProjectsService, PrismaService, ImageEditorService],
+  providers: [
+    ProjectsService,
+    PrismaService,
+    ImageEditorService,
+    {
+      provide: CACHE_MANAGER,
+      useClass: CacheModule,
+    },
+  ],
 })
 export class ProjectsModule {}

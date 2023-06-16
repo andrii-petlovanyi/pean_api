@@ -1,12 +1,13 @@
 import {
   Body,
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Delete,
   Get,
   Param,
   Patch,
   Post,
-  UploadedFiles,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -15,22 +16,27 @@ import {
 import { Auth } from '@src/common/users/guard/auth.guard';
 import { PostsService } from '@src/common/posts/posts.service';
 import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000)
   @Get('/')
   async projectsList() {
     return this.postsService.postsList();
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(600000)
   @Get('/sitemap')
   async postsSitemapRoute() {
     return this.postsService.postsSitemapRoute();
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000)
   @Get('/:slug')
   async projectById(@Param('slug') slug: string) {
     return this.postsService.postBySlug(slug);

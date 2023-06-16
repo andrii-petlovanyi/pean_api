@@ -1,5 +1,7 @@
 import {
   Body,
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -24,16 +26,22 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000)
   @Get('/')
   async projectsList() {
     return this.projectsService.projectsList();
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(600000)
   @Get('/sitemap')
   async projectsSitemapRoute() {
     return this.projectsService.projectsSitemapRoutes();
   }
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(300000)
   @Get('/:slug')
   async projectById(@Param('slug') slug: string) {
     return this.projectsService.projectBySlug(slug);

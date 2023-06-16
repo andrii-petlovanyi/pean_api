@@ -1,5 +1,7 @@
 import {
   Body,
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -7,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,6 +22,8 @@ import { MetaDto } from '@src/common/meta/dto/meta.dto';
 export class MetaController {
   constructor(private readonly metaService: MetaService) {}
 
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(600000)
   @Get('/')
   async metaList(@Query('page') page: string) {
     return this.metaService.metaList(page);

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
 import { PrismaService } from '@src/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from '@src/common/users/users.module';
@@ -12,10 +12,12 @@ import { GalleryService } from './common/gallery/gallery.service';
 import { GalleryModule } from './common/gallery/gallery.module';
 import { ImageEditorService } from './common/image-editor/image-editor.service';
 import { GoogleStrategy } from './common/users/strategy/google.strategy';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CacheModule.register({ isGlobal: false }),
     UsersModule,
     PostsModule,
     ProjectsModule,
@@ -31,6 +33,10 @@ import { GoogleStrategy } from './common/users/strategy/google.strategy';
     GalleryService,
     ImageEditorService,
     GoogleStrategy,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
   ],
 })
 export class AppModule {}
