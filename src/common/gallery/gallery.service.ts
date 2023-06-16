@@ -183,6 +183,14 @@ export class GalleryService {
     return album;
   }
 
+  async searchAlbum(search: string) {
+    return await this.prismaService.album.findMany({
+      where: {
+        albumName: search,
+      },
+    });
+  }
+
   async addImgInAlbum(
     files: Express.Multer.File[],
     dto: Album,

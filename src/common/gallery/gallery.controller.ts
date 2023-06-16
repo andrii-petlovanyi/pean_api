@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -62,6 +63,12 @@ export class GalleryController {
   @Get('/:galleryFolderId')
   async oneGalleryFolder(@Param('galleryFolderId') galleryFolderId: string) {
     return await this.galleryService.oneGalleryFolder(galleryFolderId);
+  }
+
+  @Auth()
+  @Get('/album/search')
+  async searchAlbum(@Query('name') name: string) {
+    return await this.galleryService.searchAlbum(name);
   }
 
   @Get('/album/:albumId')
