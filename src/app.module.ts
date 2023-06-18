@@ -13,6 +13,7 @@ import { GalleryModule } from './common/gallery/gallery.module';
 import { ImageEditorService } from './common/image-editor/image-editor.service';
 import { GoogleStrategy } from './common/users/strategy/google.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AiHelperModule } from './common/ai-helper/ai-helper.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     CloudinaryModule,
     ImageEditorModule,
     GalleryModule,
+    AiHelperModule,
   ],
   controllers: [],
   providers: [
