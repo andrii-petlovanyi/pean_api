@@ -186,7 +186,7 @@ export class GalleryService {
   async searchAlbum(search: string) {
     return await this.prismaService.album.findMany({
       where: {
-        albumName: search,
+        albumName: { contains: search, mode: 'insensitive' },
       },
     });
   }

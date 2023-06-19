@@ -75,8 +75,8 @@ export class GalleryController {
   @UseInterceptors(CacheInterceptor)
   @CacheTTL(600000)
   @Get('/album/search')
-  async searchAlbum(@Query('name') name: string) {
-    return await this.galleryService.searchAlbum(name);
+  async searchAlbum(@Query('albumName') albumName: string) {
+    return await this.galleryService.searchAlbum(albumName);
   }
 
   @Get('/album/:albumId')

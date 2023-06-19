@@ -1,7 +1,7 @@
 {
   "name": "pean_api",
   "version": "0.0.1",
-  "description": "Small API for homepage pean.dev",
+  "description": "Small API for homepage pean.dev and manager app Pean.ed",
   "author": "Andrii Petlovanyi",
   "private": true,
   "license": "UNLICENSED",
