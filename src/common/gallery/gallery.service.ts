@@ -24,7 +24,7 @@ export class GalleryService {
   ) {}
 
   async galleryFolders() {
-    return this.prismaService.galleryFolder.findMany({
+    const folders = await this.prismaService.galleryFolder.findMany({
       select: {
         id: true,
         folderName: true,
@@ -35,6 +35,8 @@ export class GalleryService {
         updatedAt: 'desc',
       },
     });
+
+    return { folders };
   }
 
   async oneGalleryFolder(galleryFolderId: string) {
@@ -63,7 +65,7 @@ export class GalleryService {
         `Gallery folder with id: ${galleryFolderId} not found`,
       );
 
-    return folder;
+    return { folder };
   }
 
   async createGalleryFolder(file: Express.Multer.File, dto: GalleryFolder) {
@@ -180,15 +182,24 @@ export class GalleryService {
     if (!album)
       throw new NotFoundException(`Album  with id: ${albumId} not found`);
 
-    return album;
+    return { album };
   }
 
   async searchAlbum(search: string) {
-    return await this.prismaService.album.findMany({
+    const albums = await this.prismaService.album.findMany({
       where: {
         albumName: { contains: search, mode: 'insensitive' },
       },
+      select: {
+        id: true,
+        images: true,
+        albumName: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
+
+    return { albums };
   }
 
   async addImgInAlbum(

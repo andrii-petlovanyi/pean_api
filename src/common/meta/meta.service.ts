@@ -80,7 +80,7 @@ export class MetaService {
 
     return {
       message: 'Meta updated successfully',
-      post: updatedMeta,
+      meta: updatedMeta,
     };
   }
 }

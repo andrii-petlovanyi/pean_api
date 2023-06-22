@@ -25,7 +25,7 @@ export class PostsService {
       },
     });
 
-    return posts;
+    return { posts };
   }
 
   async postsSitemapRoute() {
@@ -53,7 +53,7 @@ export class PostsService {
 
     if (!post) throw new NotFoundException(`Post with slug: ${slug} not found`);
 
-    return post;
+    return { post };
   }
 
   async addPost(dto: PostsDto) {

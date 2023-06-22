@@ -34,16 +34,18 @@ export class ProjectsService {
       },
     });
 
-    return projects;
+    return { projects };
   }
 
   async projectsSitemapRoutes() {
-    return await this.prisma.project.findMany({
+    const projects = await this.prisma.project.findMany({
       select: {
         id: true,
         slug: true,
       },
     });
+
+    return { projects };
   }
 
   async projectBySlug(slug: string) {
@@ -63,7 +65,7 @@ export class ProjectsService {
     if (!project)
       throw new NotFoundException(`Project with slug: ${slug} not found`);
 
-    return project;
+    return { project };
   }
 
   async addProject(file: Express.Multer.File, dto: ProjectsDto) {
@@ -148,7 +150,7 @@ export class ProjectsService {
 
     return {
       message: 'Project updated successfully',
-      post: updatedProject,
+      project: updatedProject,
     };
   }
 }
