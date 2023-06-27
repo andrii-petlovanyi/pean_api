@@ -11,7 +11,6 @@ import { ImageEditorModule } from './common/image-editor/image-editor.module';
 import { GalleryService } from './common/gallery/gallery.service';
 import { GalleryModule } from './common/gallery/gallery.module';
 import { ImageEditorService } from './common/image-editor/image-editor.service';
-import { GoogleStrategy } from './common/users/strategy/google.strategy';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AiHelperModule } from './common/ai-helper/ai-helper.module';
 
@@ -34,7 +33,6 @@ import { AiHelperModule } from './common/ai-helper/ai-helper.module';
     PrismaService,
     GalleryService,
     ImageEditorService,
-    GoogleStrategy,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
