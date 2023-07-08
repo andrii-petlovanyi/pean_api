@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -31,6 +32,12 @@ export class ProjectsController {
   @Get('/')
   async projectsList() {
     return this.projectsService.projectsList();
+  }
+
+  @Auth()
+  @Get('/')
+  async dashboardProjectsList(@Query('inDraft') inDraft: boolean) {
+    return this.projectsService.dashboardProjectsList(inDraft);
   }
 
   @UseInterceptors(CacheInterceptor)

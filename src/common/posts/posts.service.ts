@@ -11,6 +11,7 @@ export class PostsService {
 
   async postsList() {
     const posts = await this.prisma.post.findMany({
+      where: { inDraft: false },
       select: {
         id: true,
         title: true,
@@ -24,6 +25,41 @@ export class PostsService {
         },
       },
     });
+
+    return { posts };
+  }
+
+  async dashboardPostsList(inDraft?: boolean) {
+    const selectOptions = {
+      id: true,
+      title: true,
+      description: true,
+      slug: true,
+      inDraft: true,
+      createdAt: true,
+      album: {
+        select: {
+          images: true,
+        },
+      },
+    };
+
+    const orderByOptions = {
+      updatedAt: 'desc',
+    };
+
+    const searchOptions: any = {
+      select: selectOptions,
+      orderBy: orderByOptions,
+    };
+
+    if (typeof inDraft !== 'undefined') {
+      searchOptions.where = {
+        inDraft: inDraft,
+      };
+    }
+
+    const posts = await this.prisma.post.findMany(searchOptions);
 
     return { posts };
   }

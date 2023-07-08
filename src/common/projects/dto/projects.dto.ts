@@ -6,12 +6,17 @@ import {
   MinLength,
   ArrayMinSize,
   IsUrl,
+  IsBoolean,
 } from 'class-validator';
 
 export class ProjectsDto {
   @MinLength(5, { message: 'Title must be at least 5 characters long' })
   @IsString({ message: 'Title must be a string' })
   title: string;
+
+  @IsBoolean({ message: 'inDraft must be a boolean' })
+  @IsOptional()
+  inDraft: boolean;
 
   @MinLength(2, { message: 'Platform must be at least 2 characters long' })
   @MaxLength(200, {
@@ -64,6 +69,9 @@ export class UpdateProjectsDto {
   @IsString({ message: 'Title must be a string' })
   @IsOptional()
   title: string;
+
+  @IsBoolean({ message: 'inDraft must be a boolean' })
+  inDraft: boolean;
 
   @MinLength(2, { message: 'Platform must be at least 2 characters long' })
   @MaxLength(200, {

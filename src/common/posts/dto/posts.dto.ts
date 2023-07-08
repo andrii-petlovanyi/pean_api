@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -10,6 +11,10 @@ export class PostsDto {
   @MinLength(5, { message: 'Title must be at least 5 characters long' })
   @IsString({ message: 'Title must be a string' })
   title: string;
+
+  @IsBoolean({ message: 'inDraft must be a boolean' })
+  @IsOptional()
+  inDraft: boolean;
 
   @MinLength(20, { message: 'Description must be at least 20 characters long' })
   @MaxLength(370, {
@@ -65,6 +70,9 @@ export class UpdatePostDto {
   @IsOptional()
   @IsNotEmpty({ message: 'Meta title cannot be empty' })
   metaTitle?: string;
+
+  @IsBoolean({ message: 'inDraft must be a boolean' })
+  inDraft: boolean;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()

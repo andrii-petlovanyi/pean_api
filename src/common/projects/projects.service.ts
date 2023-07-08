@@ -21,11 +21,13 @@ export class ProjectsService {
 
   async projectsList() {
     const projects = await this.prisma.project.findMany({
+      where: { inDraft: false },
       select: {
         id: true,
         title: true,
         imgPlaceholder: true,
         slug: true,
+        inDraft: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -33,6 +35,37 @@ export class ProjectsService {
         updatedAt: 'desc',
       },
     });
+
+    return { projects };
+  }
+
+  async dashboardProjectsList(inDraft?: boolean) {
+    const selectOptions = {
+      id: true,
+      title: true,
+      imgPlaceholder: true,
+      slug: true,
+      inDraft: true,
+      createdAt: true,
+      updatedAt: true,
+    };
+
+    const orderByOptions = {
+      updatedAt: 'desc',
+    };
+
+    const searchOptions: any = {
+      select: selectOptions,
+      orderBy: orderByOptions,
+    };
+
+    if (typeof inDraft !== 'undefined') {
+      searchOptions.where = {
+        inDraft: inDraft,
+      };
+    }
+
+    const projects = await this.prisma.project.findMany(searchOptions);
 
     return { projects };
   }
