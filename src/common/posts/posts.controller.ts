@@ -23,7 +23,6 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300000)
   @Get('/')
   async projectsList() {
     return this.postsService.postsList();
@@ -36,14 +35,12 @@ export class PostsController {
   }
 
   @UseInterceptors(CacheInterceptor)
-  @CacheTTL(600000)
   @Get('/sitemap')
   async postsSitemapRoute() {
     return this.postsService.postsSitemapRoute();
   }
 
   @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300000)
   @Get('/:slug')
   async projectById(@Param('slug') slug: string) {
     return this.postsService.postBySlug(slug);
