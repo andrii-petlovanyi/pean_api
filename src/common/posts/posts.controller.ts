@@ -1,7 +1,5 @@
 import {
   Body,
-  CacheInterceptor,
-  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -9,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,7 +19,6 @@ import { PostsDto, UpdatePostDto } from '@src/common/posts/dto/posts.dto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @UseInterceptors(CacheInterceptor)
   @Get('/')
   async projectsList() {
     return this.postsService.postsList();
@@ -34,13 +30,11 @@ export class PostsController {
     return this.postsService.dashboardPostsList(inDraft);
   }
 
-  @UseInterceptors(CacheInterceptor)
   @Get('/sitemap')
   async postsSitemapRoute() {
     return this.postsService.postsSitemapRoute();
   }
 
-  @UseInterceptors(CacheInterceptor)
   @Get('/:slug')
   async projectById(@Param('slug') slug: string) {
     return this.postsService.postBySlug(slug);
