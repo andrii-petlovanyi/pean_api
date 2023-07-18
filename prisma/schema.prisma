@@ -23,13 +23,13 @@ model Project {
   projectDate      String
   imgPlaceholder   String
   imgPlaceholderId String
-  technology       String[]
+  technology       String
   platform         String
   urlDemo          String?
   urlRepository    String?
   metaTitle        String?
   metaDescription  String?
-  metaKeywords     String[]
+  metaKeywords     String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   album            Album?   @relation(fields: albumId, references: id)

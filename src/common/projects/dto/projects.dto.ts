@@ -27,7 +27,7 @@ export class ProjectsDto {
 
   @ArrayMinSize(1, { message: 'At least one technology is required' })
   @IsString({ each: true, message: 'All technologies must be strings' })
-  technology: string[];
+  technology: string;
 
   @IsUrl()
   @IsString({ message: 'URL on demo project must be a string' })
@@ -84,7 +84,7 @@ export class UpdateProjectsDto {
   @ArrayMinSize(1, { message: 'At least one technology is required' })
   @IsString({ each: true, message: 'All technologies must be strings' })
   @IsOptional()
-  technology: string[];
+  technology: string;
 
   @IsUrl()
   @IsString({ message: 'URL on demo project must be a string' })

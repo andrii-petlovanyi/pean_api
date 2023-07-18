@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Project" ALTER COLUMN "technology" SET NOT NULL,
+ALTER COLUMN "technology" SET DATA TYPE TEXT,
+ALTER COLUMN "metaKeywords" DROP NOT NULL,
+ALTER COLUMN "metaKeywords" SET DATA TYPE TEXT;
