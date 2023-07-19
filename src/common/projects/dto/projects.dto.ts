@@ -1,10 +1,8 @@
 import {
-  IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
   MinLength,
-  ArrayMinSize,
   IsUrl,
   IsBoolean,
 } from 'class-validator';
