@@ -33,7 +33,7 @@ export class ProjectsController {
   }
 
   @Auth()
-  @Get('/')
+  @Get('/dashboard')
   async dashboardProjectsList(@Query('inDraft') inDraft: boolean) {
     return this.projectsService.dashboardProjectsList(inDraft);
   }
