@@ -45,17 +45,14 @@ export class ProjectsDto {
 
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta title cannot be empty' })
   metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta description cannot be empty' })
   metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   metaKeywords?: string;
 
   @IsOptional()
@@ -105,17 +102,14 @@ export class UpdateProjectsDto {
 
   @IsString({ message: 'Meta title must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta title cannot be empty' })
   metaTitle?: string;
 
   @IsString({ message: 'Meta description must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta description cannot be empty' })
   metaDescription?: string;
 
   @IsString({ message: 'Meta keywords must be a string' })
   @IsOptional()
-  @IsNotEmpty({ message: 'Meta keywords cannot be empty' })
   metaKeywords?: string;
 
   @IsOptional()
