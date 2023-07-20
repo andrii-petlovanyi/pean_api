@@ -1,7 +1,5 @@
 import {
   Body,
-  CacheInterceptor,
-  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -24,8 +22,6 @@ import { Auth } from '../users/guard/auth.guard';
 export class GalleryController {
   constructor(private readonly galleryService: GalleryService) {}
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300000)
   @Get('/')
   async galleryFolders() {
     return await this.galleryService.galleryFolders();
@@ -64,16 +60,12 @@ export class GalleryController {
     );
   }
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300000)
   @Get('/:galleryFolderId')
   async oneGalleryFolder(@Param('galleryFolderId') galleryFolderId: string) {
     return await this.galleryService.oneGalleryFolder(galleryFolderId);
   }
 
   @Auth()
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(600000)
   @Get('/album/search')
   async searchAlbum(@Query('albumName') albumName: string) {
     return await this.galleryService.searchAlbum(albumName);
