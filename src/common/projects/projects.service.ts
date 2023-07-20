@@ -110,11 +110,13 @@ export class ProjectsService {
       dto.title,
     );
 
+    console.log(dto.inDraft);
+
     const project = await this.prisma.project.create({
       data: {
         id: uuidv4(),
         ...dto,
-        inDraft: !!dto.inDraft,
+        inDraft: dto.inDraft === 'true',
         slug,
         imgPlaceholder: imageData.url,
         imgPlaceholderId: imageData.publicId,
@@ -175,7 +177,7 @@ export class ProjectsService {
       },
       data: {
         ...dto,
-        inDraft: !!dto.inDraft,
+        inDraft: dto.inDraft === 'true',
         slug,
         imgPlaceholder: updatedImageData?.url || project.imgPlaceholder,
         imgPlaceholderId:
