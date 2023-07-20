@@ -72,6 +72,7 @@ export class ProjectsService {
 
   async projectsSitemapRoutes() {
     const projects = await this.prisma.project.findMany({
+      where: { inDraft: false },
       select: {
         id: true,
         slug: true,
