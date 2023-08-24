@@ -111,8 +111,6 @@ export class ProjectsService {
       dto.title,
     );
 
-    console.log(dto.inDraft);
-
     const project = await this.prisma.project.create({
       data: {
         id: uuidv4(),
