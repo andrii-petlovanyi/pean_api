@@ -10,10 +10,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      # Build project
+      - name: Build project
+        run: |
+          npm install
+          npm run build
+
+      # Create env file
+      - name: Create environment file
+        run: |
+          echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env
+          echo "PORT=${{ env.PORT }}" >> .env
+          echo "ELECTRON_PORT=${{ env.ELECTRON_PORT }}" >> .env
+          echo "JWT_SECRET=${{ env.JWT_SECRET }}" >> .env
+          echo "CLOUD_PROVIDER=${{ env.CLOUD_PROVIDER }}" >> .env
+          echo "CLOUD_NAME=${{ env.CLOUD_NAME }}" >> .env
+          echo "CLOUD_API_KEY=${{ env.CLOUD_API_KEY }}" >> .env
+          echo "CLOUD_API_SECRET=${{ env.CLOUD_API_SECRET }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ env.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ env.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "GOOGLE_REDIRECT_URL=${{ env.GOOGLE_REDIRECT_URL }}" >> .env
+          echo "CHAT_GPT_URL=${{ env.CHAT_GPT_URL }}" >> .env
+          echo "CHAT_GPT_TOKEN=${{ env.CHAT_GPT_TOKEN }}" >> .env
+          echo "CHAT_GPT_MODEL=${{ env.CHAT_GPT_MODEL }}" >> .env
+
+      # Copy project to remoute machine
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
         with:
-          switches: -avzr --update --ignore-existing
+          switches: -avzr --delete
           path: ./
           remote_path: /home/user/pean_api/
           remote_host: ${{ secrets.SERVER_IP }}

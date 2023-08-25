@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "npm i && npm run build && node dist/main"
+    "start:prod": "npm i && node dist/main"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
