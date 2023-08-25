@@ -35,12 +35,18 @@ jobs:
           echo "CHAT_GPT_TOKEN=${{ env.CHAT_GPT_TOKEN }}" >> .env
           echo "CHAT_GPT_MODEL=${{ env.CHAT_GPT_MODEL }}" >> .env
 
+      # Copy selected files to remote machine
+      - name: Copy selected files
+        run: |
+          mkdir deploy
+          cp -r dist package.json package-lock.json .env deploy/
+
       # Copy project to remoute machine
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete
-          include: .env ecosystem.config.js dist/ package.json
+          path: ./
           remote_path: /home/user/pean_api/
           remote_host: ${{ secrets.SERVER_IP }}
           remote_user: root
