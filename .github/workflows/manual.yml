@@ -20,20 +20,20 @@ jobs:
       # Create env file
       - name: Create environment file
         run: |
-          echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env
-          echo "PORT=${{ env.PORT }}" >> .env
-          echo "ELECTRON_PORT=${{ env.ELECTRON_PORT }}" >> .env
-          echo "JWT_SECRET=${{ env.JWT_SECRET }}" >> .env
-          echo "CLOUD_PROVIDER=${{ env.CLOUD_PROVIDER }}" >> .env
-          echo "CLOUD_NAME=${{ env.CLOUD_NAME }}" >> .env
-          echo "CLOUD_API_KEY=${{ env.CLOUD_API_KEY }}" >> .env
-          echo "CLOUD_API_SECRET=${{ env.CLOUD_API_SECRET }}" >> .env
-          echo "GOOGLE_CLIENT_ID=${{ env.GOOGLE_CLIENT_ID }}" >> .env
-          echo "GOOGLE_CLIENT_SECRET=${{ env.GOOGLE_CLIENT_SECRET }}" >> .env
-          echo "GOOGLE_REDIRECT_URL=${{ env.GOOGLE_REDIRECT_URL }}" >> .env
-          echo "CHAT_GPT_URL=${{ env.CHAT_GPT_URL }}" >> .env
-          echo "CHAT_GPT_TOKEN=${{ env.CHAT_GPT_TOKEN }}" >> .env
-          echo "CHAT_GPT_MODEL=${{ env.CHAT_GPT_MODEL }}" >> .env
+          echo "DATABASE_URL=${{ github.DATABASE_URL }}" > .env
+          echo "PORT=${{ github.PORT }}" >> .env
+          echo "ELECTRON_PORT=${{ github.ELECTRON_PORT }}" >> .env
+          echo "JWT_SECRET=${{ github.JWT_SECRET }}" >> .env
+          echo "CLOUD_PROVIDER=${{ github.CLOUD_PROVIDER }}" >> .env
+          echo "CLOUD_NAME=${{ github.CLOUD_NAME }}" >> .env
+          echo "CLOUD_API_KEY=${{ github.CLOUD_API_KEY }}" >> .env
+          echo "CLOUD_API_SECRET=${{ github.CLOUD_API_SECRET }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ github.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ github.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "GOOGLE_REDIRECT_URL=${{ github.GOOGLE_REDIRECT_URL }}" >> .env
+          echo "CHAT_GPT_URL=${{ github.CHAT_GPT_URL }}" >> .env
+          echo "CHAT_GPT_TOKEN=${{ github.CHAT_GPT_TOKEN }}" >> .env
+          echo "CHAT_GPT_MODEL=${{ github.CHAT_GPT_MODEL }}" >> .env
 
       # Copy selected files to remote machine
       - name: Copy selected files
