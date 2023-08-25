@@ -40,7 +40,7 @@ jobs:
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete
-          path: ./
+          include: .env ecosystem.config.js dist/ node-modules/
           remote_path: /home/user/pean_api/
           remote_host: ${{ secrets.SERVER_IP }}
           remote_user: root
