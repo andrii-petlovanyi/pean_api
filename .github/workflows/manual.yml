@@ -39,7 +39,7 @@ jobs:
       - name: Copy selected files
         run: |
           mkdir deploy
-          cp -r dist package.json ecosystem.config.js package-lock.json .env deploy/
+          cp -r dist prisma package.json ecosystem.config.js package-lock.json .env deploy/
 
       # Copy project to remoute machine
       - name: rsync deployments
