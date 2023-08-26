@@ -29,6 +29,12 @@ jobs:
           echo "CHAT_GPT_TOKEN=${{ secrets.CHAT_GPT_TOKEN }}" >> .env
           echo "CHAT_GPT_MODEL=${{ secrets.CHAT_GPT_MODEL }}" >> .env
 
+      # Build project
+      - name: Build project
+        run: |
+          npm install
+          npm run build
+
       # Copy selected files to remote machine
       - name: Copy selected files
         run: |
