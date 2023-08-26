@@ -11,29 +11,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Build project
-      - name: Build project
-        run: |
-          npm install
-          npm run build
-
       # Create env file
       - name: Create environment file
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "ELECTRON_PORT=${{ secrets.ELECTRON_PORT }}" >> .env
+          echo "PORT=${{ env.PORT }}" >> .env
+          echo "ELECTRON_PORT=${{ env.ELECTRON_PORT }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "CLOUD_PROVIDER=${{ secrets.CLOUD_PROVIDER }}" >> .env
+          echo "CLOUD_PROVIDER=${{ env.CLOUD_PROVIDER }}" >> .env
           echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> .env
           echo "CLOUD_API_KEY=${{ secrets.CLOUD_API_KEY }}" >> .env
           echo "CLOUD_API_SECRET=${{ secrets.CLOUD_API_SECRET }}" >> .env
           echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
-          echo "GOOGLE_REDIRECT_URL=${{ secrets.GOOGLE_REDIRECT_URL }}" >> .env
-          echo "CHAT_GPT_URL=${{ secrets.CHAT_GPT_URL }}" >> .env
+          echo "GOOGLE_REDIRECT_URL=${{ env.GOOGLE_REDIRECT_URL }}" >> .env
+          echo "CHAT_GPT_URL=${{ env.CHAT_GPT_URL }}" >> .env
           echo "CHAT_GPT_TOKEN=${{ secrets.CHAT_GPT_TOKEN }}" >> .env
-          echo "CHAT_GPT_MODEL=${{ secrets.CHAT_GPT_MODEL }}" >> .env
+          echo "CHAT_GPT_MODEL=${{ env.CHAT_GPT_MODEL }}" >> .env
+
+      # Build project
+      - name: Build project
+        run: |
+          npm install
+          npm run build
 
       # Copy selected files to remote machine
       - name: Copy selected files
